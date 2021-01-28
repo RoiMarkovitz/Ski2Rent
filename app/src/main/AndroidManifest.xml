@@ -9,13 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ski2Rent">
-        <activity android:name=".activities.Activity_Login"></activity>
-        <activity android:name=".activities.Activity_ShoppingCart" />
-        <activity android:name=".activities.Activity_OrdersStatus" />
-        <activity android:name=".activities.Activity_RentSnowboards" />
-        <activity android:name=".activities.Activity_RentSkis" />
-        <activity android:name=".activities.Activity_Prices" />
-        <activity android:name=".activities.Activity_MainMenu">
+        <activity android:name=".activities.Activity_Base"></activity>
+        <activity
+            android:name=".activities.Activity_Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_ShoppingCart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_OrdersStatus"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_RentSnowboards"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_RentSkis"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_Prices"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Activity_MainMenu"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
