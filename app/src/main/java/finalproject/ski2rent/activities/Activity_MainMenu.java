@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import finalproject.ski2rent.R;
 
@@ -30,7 +33,9 @@ public class Activity_MainMenu extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__main_menu);
 
+        validateUser();
         findViews();
+
 
         Glide
                 .with(this)
@@ -66,6 +71,37 @@ public class Activity_MainMenu extends Activity_Base {
         });
 
     } // onCreate
+
+    private void validateUser() {
+        // these are singletons, can be called from anywhere no need context
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser == null) {
+            Intent myIntent = new Intent(this, Activity_Login.class);
+            startActivity(myIntent);
+            finish();
+            return;
+        }
+
+        Log.d("pttt", "Uid = " + firebaseUser.getUid());
+        Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
+        Log.d("pttt", "Email = " + firebaseUser.getEmail());
+        Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
+        Log.d("pttt", "PhotoUrl = " + firebaseUser.getPhotoUrl());
+
+//        firebaseAuth.signOut();
+//        FirebaseAuth.getInstance().signOut();
+
+//         We wont do it like that...
+//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//                .setDisplayName("Aliyahu Cohen")
+//                .build();
+//
+//        firebaseUser.updateProfile(profileUpdates);
+//        firebaseAuth.updateCurrentUser(firebaseUser);
+
+    }
 
     private void findViews() {
         menu_BTN_prices = findViewById(R.id.menu_BTN_prices);

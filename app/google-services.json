@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "91134569916",
+    "project_id": "ski2rent-2121f",
+    "storage_bucket": "ski2rent-2121f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91134569916:android:885b7f22c96b6b5d36cfb9",
+        "android_client_info": {
+          "package_name": "finalproject.ski2rent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91134569916-4curbdo6uomc21b2tcmom1pu9mi3j3di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsIQefOGJ36WYgKAeekd6_UVDScwGNY4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91134569916-4curbdo6uomc21b2tcmom1pu9mi3j3di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
