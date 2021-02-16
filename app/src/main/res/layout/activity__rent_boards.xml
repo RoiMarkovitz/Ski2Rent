@@ -5,17 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Activity_RentSkis">
+    android:background="@color/light_blue"
+    tools:context=".activities.Activity_RentBoards">
 
     <TextView
-        android:id="@+id/rentSkis_LBL_title"
+        android:id="@+id/rentBoards_LBL_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="18dp"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:text="Skis Rent "/>
+        android:text="Snowboards/Ski Rent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rentBoards_LST_boards"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rentBoards_LBL_title"
+        tools:listitem="@layout/list_boards"/>
 
 </RelativeLayout>

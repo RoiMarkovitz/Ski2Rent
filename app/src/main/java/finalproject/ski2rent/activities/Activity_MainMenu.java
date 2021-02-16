@@ -1,21 +1,20 @@
 package finalproject.ski2rent.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import finalproject.ski2rent.R;
+
+// TODO remember class related logic in view
 
 public class Activity_MainMenu extends Activity_Base {
 
@@ -48,14 +47,14 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_skis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRentSkisActivity(Activity_MainMenu.this);
+                openRentDatesActivity(Activity_MainMenu.this, "Ski");
             }
         });
 
         menu_BTN_snowboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRentSnowboardsActivity(Activity_MainMenu.this);
+                openRentDatesActivity(Activity_MainMenu.this, "Snowboard");
             }
         });
 
@@ -81,13 +80,9 @@ public class Activity_MainMenu extends Activity_Base {
         startActivity(myIntent);
     }
 
-    private void openRentSkisActivity(Activity activity) {
-        Intent myIntent = new Intent(activity, Activity_RentSkis.class);
-        startActivity(myIntent);
-    }
-
-    private void openRentSnowboardsActivity(Activity activity) {
-        Intent myIntent = new Intent(activity, Activity_RentSnowboards.class);
+    private void openRentDatesActivity(Activity activity, String boardType) {
+        Intent myIntent = new Intent(activity, Activity_RentDates.class);
+        myIntent.putExtra(Activity_RentBoards.EXTRA_KEY_BOARD_TYPE, boardType);
         startActivity(myIntent);
     }
 
@@ -125,7 +120,5 @@ public class Activity_MainMenu extends Activity_Base {
         Log.d("mainMenuLifeCycle", "onDestroy: Activity_MainMenu");
         super.onDestroy();
     }
-
-
 
 } // Activity_MainMenu

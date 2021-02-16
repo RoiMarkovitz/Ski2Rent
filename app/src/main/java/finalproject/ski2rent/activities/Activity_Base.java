@@ -59,5 +59,5 @@ public class Activity_Base extends AppCompatActivity {
         }
 
     }
-    
+
 } // Activity_Base

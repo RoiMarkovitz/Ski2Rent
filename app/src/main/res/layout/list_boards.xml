@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="20dp"
+    android:elevation="5dp"
+    app:cardElevation="5dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        >
+
+        <TextView
+            android:id="@+id/boards_LBL_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:background="@color/bronze"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/boards_LBL_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/boards_LBL_name"
+            android:layout_alignStart="@id/boards_LBL_name"
+            android:layout_marginTop="4dp"
+            android:text="Brand"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/boards_LBL_camberProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/boards_LBL_brand"
+            android:layout_alignStart="@id/boards_LBL_brand"
+            android:layout_marginTop="4dp"
+            android:text="Camber Profile"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/boards_SPN_lengths"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_below="@id/boards_LBL_camberProfile"
+            android:layout_alignStart="@id/boards_LBL_camberProfile"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+
+        <ImageView
+            android:id="@+id/boards_IMG_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/boards_SPN_lengths"
+            android:layout_alignStart="@id/boards_SPN_lengths"
+            android:layout_marginTop="4dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_snowboard_skate_banana" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boards_BTN_addToCart"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Add to Cart"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/boards_LBL_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/boards_BTN_addToCart"
+            android:layout_alignStart="@id/boards_BTN_addToCart"
+            android:layout_marginTop="4dp"
+            android:text="% discount"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/boards_LBL_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/boards_LBL_discount"
+            android:layout_alignStart="@id/boards_LBL_discount"
+            android:layout_marginTop="4dp"
+            android:text="price"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

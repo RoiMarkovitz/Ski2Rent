@@ -9,5 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Peach">#FB9696</color>
     <color name="brown">#995544</color>
+    <color name="blue">#2196F3</color>
+    <color name="grey">#D4D8DC</color>
+    <color name="light_blue">#A5C8ED</color>
+    <color name="bronze">#B08D57</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gold">#FFD700</color>
+
 
 </resources>

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ski2Rent">
-        <activity android:name=".activities.Activity_Base"></activity>
+        <activity android:name=".activities.Activity_RentDates"></activity>
+        <activity android:name=".activities.Activity_Base" />
         <activity
             android:name=".activities.Activity_Login"
             android:screenOrientation="portrait" />
@@ -20,10 +21,7 @@
             android:name=".activities.Activity_OrdersStatus"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.Activity_RentSnowboards"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.Activity_RentSkis"
+            android:name=".activities.Activity_RentBoards"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Activity_Prices"

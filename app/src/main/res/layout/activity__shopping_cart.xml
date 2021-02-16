@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue"
     tools:context=".activities.Activity_ShoppingCart">
 
     <TextView
@@ -13,9 +14,104 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="18dp"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:text="Shopping Cart "/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shoppingCart_LBL_header"
+        android:layout_below="@id/shoppingCart_LBL_title"
+        android:background="@color/grey"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/shoppingCart_LBL_details"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:text="Details"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="56.0"/>
+
+        <TextView
+            android:id="@+id/shoppingCart_LBL_quantity"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:text="Quantity"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="90.6"/>
+
+        <TextView
+            android:id="@+id/shoppingCart_LBL_price"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Price"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="90.0"/>
+
+        <TextView
+            android:id="@+id/shoppingCart_LBL_clear"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=""
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="90.0"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shoppingCart_LST_records"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/shoppingCart_LBL_header"
+        tools:listitem="@layout/list_shopping_cart" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/shoppingCart_LST_records"
+        android:layout_alignStart="@id/shoppingCart_LST_records"
+        android:background="@color/silver">
+
+        <TextView
+            android:id="@+id/shoppingCart_LBL_totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Total price: "
+
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="6dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shoppingCart_BTN_checkOut"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Check Out"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="6dp"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
