@@ -6,13 +6,14 @@ public abstract class Board {
     public enum eCamberProfile {Camber, HybridCamber, Flat, Rocker, HybridRocker};
     public enum eType {Snowboard, Ski};
 
-    private String key = "";
-    private String name = "";
-    private String brand = "";
-    private String imagePath = "";
-    private eCamberProfile camberProfile;
-    private eLevel level;
-    private eType type;
+    protected String key = "";
+    protected String name = "";
+    protected String brand = "";
+    protected String imagePath = "";
+    protected double price = 0.0;
+    protected eCamberProfile camberProfile;
+    protected eLevel level;
+    protected eType type;
 
 
     public Board() {}
@@ -55,6 +56,14 @@ public abstract class Board {
 
     public void setCamberProfile(eCamberProfile camberProfile) {
         this.camberProfile = camberProfile;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public eLevel getLevel() {

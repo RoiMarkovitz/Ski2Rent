@@ -4,7 +4,6 @@ public class RentedBoard extends Board {
 
     private int length = 0;
     private int quantity = 0;
-    private double price = 0.0;
 
     public RentedBoard(){}
 
@@ -27,14 +26,6 @@ public class RentedBoard extends Board {
         return this;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public RentedBoard setPrice(double price) {
-        this.price = price;
-        return this;
-    }
 
     public String description() {
         String str = super.description();

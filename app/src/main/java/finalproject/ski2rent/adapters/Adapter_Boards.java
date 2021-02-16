@@ -36,7 +36,6 @@ public class Adapter_Boards extends RecyclerView.Adapter<Adapter_Boards.MyViewHo
     private int days;
     private int daysBeforePickup;
     private double discountPercentage;
-    private ArrayList<Double> prices = new ArrayList<>();
 
     // data is passed into the constructor
     public Adapter_Boards(Context context, ArrayList<BoardForRent> data, int days, int daysBeforePickup) {
@@ -75,7 +74,7 @@ public class Adapter_Boards extends RecyclerView.Adapter<Adapter_Boards.MyViewHo
 
         double price = priceTable.calculatePrice(days, board, daysBeforePickup);
         holder.boards_LBL_price.setText("€ " + price);
-        prices.add(price);
+        board.setPrice(price);
 
         setNameBackGroundColor(board, holder);
 
@@ -156,8 +155,7 @@ public class Adapter_Boards extends RecyclerView.Adapter<Adapter_Boards.MyViewHo
                         boardToCart.setType(board.getType());
                         boardToCart.setCamberProfile(board.getCamberProfile());
                         boardToCart.setImagePath(board.getImagePath());
-
-                        boardToCart.setPrice(prices.get(getAdapterPosition()));
+                        boardToCart.setPrice(board.getPrice());
 
 //                        boardToCart.setLength()
 

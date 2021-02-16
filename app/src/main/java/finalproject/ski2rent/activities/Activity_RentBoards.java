@@ -81,7 +81,7 @@ public class Activity_RentBoards extends Activity_Base {
                 boardToCart.setQuantity(1);
 
                 boardsInCart.add(boardToCart);
-                Toast.makeText(Activity_RentBoards.this, "Report " + boardsInCart.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_RentBoards.this, "numOFDifBoards " + boardsInCart.size(), Toast.LENGTH_SHORT).show();
 
             }
         });
