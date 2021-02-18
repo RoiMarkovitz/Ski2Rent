@@ -2,12 +2,10 @@ package finalproject.ski2rent.objects;
 
 import java.util.ArrayList;
 
-// TODO maybe make singleton
-
 public class ShoppingCart {
 
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
-    // TODO USER ID
+    // TODO CUSTOMER ID
 
     public ShoppingCart() {}
 
@@ -18,6 +16,20 @@ public class ShoppingCart {
     public ShoppingCart setBoardsInCart(ArrayList<RentedBoard> boardsInCart) {
         this.boardsInCart = boardsInCart;
         return this;
+    }
+
+
+    // TODO probably not needed because of firebase
+    public void addToCart(RentedBoard boardToCart) {
+        for (int i = 0; i < boardsInCart.size(); i++) {
+            if (boardsInCart.get(i).isSameKey(boardToCart.getKey())) {
+                boardsInCart.get(i).setQuantity(boardsInCart.get(i).getQuantity() + 1);
+                return;
+            }
+        }
+
+        boardToCart.setQuantity(1);
+        boardsInCart.add(boardToCart);
     }
 
     public double calculateTotalPrice() {

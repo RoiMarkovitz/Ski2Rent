@@ -26,26 +26,26 @@ import finalproject.ski2rent.objects.MockPrices;
 import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.RentedBoard;
 
-public class Adapter_Boards extends RecyclerView.Adapter<Adapter_Boards.MyViewHolder>  {
+public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.MyViewHolder>  {
 
     private ArrayList<BoardForRent> mData;
     private Context context;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private Prices priceTable;
+    private Prices prices;
     private int days;
     private int daysBeforePickup;
     private double discountPercentage;
 
     // data is passed into the constructor
-    public Adapter_Boards(Context context, ArrayList<BoardForRent> data, int days, int daysBeforePickup) {
+    public Adapter_RentBoards(Context context, ArrayList<BoardForRent> data, int days, int daysBeforePickup) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData = data;
         this.days = days;
-        priceTable = MockPrices.generatePriceTable();
+        prices = Prices.getInstance();
         this.daysBeforePickup = daysBeforePickup;
-        this.discountPercentage = priceTable.calculateDiscount(daysBeforePickup);
+        this.discountPercentage = prices.calculateDiscount(daysBeforePickup);
 
     }
 
@@ -72,7 +72,7 @@ public class Adapter_Boards extends RecyclerView.Adapter<Adapter_Boards.MyViewHo
      //   String len = holder.boards_SPN_lengths.getSelectedItem().toString();
      //   Toast.makeText(context, "len " + len, Toast.LENGTH_SHORT).show();
 
-        double price = priceTable.calculatePrice(days, board, daysBeforePickup);
+        double price = prices.calculatePrice(days, board, daysBeforePickup);
         holder.boards_LBL_price.setText("€ " + price);
         board.setPrice(price);
 

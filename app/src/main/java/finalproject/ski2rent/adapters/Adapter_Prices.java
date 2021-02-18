@@ -41,7 +41,7 @@ public class Adapter_Prices extends RecyclerView.Adapter<Adapter_Prices.MyViewHo
         Log.d("pttt", "Binding " + position);
         PriceRecord price = mData.get(position);
 
-        if (price.getDays() == 0) {
+        if (price.getKey().equals("extraDays")) {
             holder.price_LBL_days.setText("extra days");
         } else {
             holder.price_LBL_days.setText(price.getDays()+"");

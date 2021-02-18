@@ -2,6 +2,7 @@ package finalproject.ski2rent.objects;
 
 public class PriceRecord {
 
+    private String key = "";
     private int days = 0;
     private double bronzePrice = 0.0;
     private double silverPrice = 0.0;
@@ -16,12 +17,22 @@ public class PriceRecord {
         setGoldPrice(goldPrice);
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public PriceRecord setKey(String key) {
+        this.key = key;
+        return this;
+    }
+
     public int getDays() {
         return days;
     }
 
     public PriceRecord setDays(int days) {
         this.days = days;
+
         return this;
     }
 

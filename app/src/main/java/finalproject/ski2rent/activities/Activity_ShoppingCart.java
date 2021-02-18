@@ -3,7 +3,6 @@ package finalproject.ski2rent.activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,14 +14,11 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 
 import finalproject.ski2rent.R;
-import finalproject.ski2rent.adapters.Adapter_Boards;
 import finalproject.ski2rent.adapters.Adapter_ShoppingCart;
-import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.MockShoppingCart;
-import finalproject.ski2rent.objects.MockSkis;
-import finalproject.ski2rent.objects.MockSnowboards;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
+import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_ShoppingCart extends Activity_Base {
 
@@ -67,7 +63,7 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart_BTN_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Activity_ShoppingCart.this, "Thanks for buying!", Toast.LENGTH_SHORT).show();
+                MySignals.getInstance().toast("Thanks for buying!");
                 // TODO update in fire base shopping cart
                 finish();
             }

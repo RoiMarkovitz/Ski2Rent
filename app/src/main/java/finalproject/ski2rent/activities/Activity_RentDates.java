@@ -17,6 +17,7 @@ import finalproject.ski2rent.R;
 
 public class Activity_RentDates extends Activity_Base {
     public static final String EXTRA_KEY_BOARD_TYPE = "EXTRA_KEY_BOARD_TYPE";
+    public static final String EXTRA_KEY_ALL_BOARDS = "EXTRA_KEY_ALL_BOARDS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class Activity_RentDates extends Activity_Base {
         setContentView(R.layout.activity__rent_dates);
 
         String boardType = getIntent().getStringExtra(EXTRA_KEY_BOARD_TYPE);
-
+        String boardsForRentJson = getIntent().getStringExtra(EXTRA_KEY_ALL_BOARDS);
         // now create instance of the material date picker
         // builder make sure to add the "dateRangePicker"
         // which is material date range picker which is the
@@ -62,18 +63,19 @@ public class Activity_RentDates extends Activity_Base {
                 Log.d("rrr", dateFormat1);
                 Log.d("rrr", dateFormat2);
 
-                openRentBoardsActivity(Activity_RentDates.this, boardType, startDate, endDate);
+                openRentBoardsActivity(Activity_RentDates.this, boardType, startDate, endDate, boardsForRentJson);
 
             }
         });
 
     } // onCreate
 
-    private void openRentBoardsActivity(Activity activity, String boardType, long startDate, long endDate) {
+    private void openRentBoardsActivity(Activity activity, String boardType, long startDate, long endDate, String boardsForRentJson) {
         Intent myIntent = new Intent(activity, Activity_RentBoards.class);
         myIntent.putExtra(Activity_RentBoards.EXTRA_KEY_BOARD_TYPE, boardType);
         myIntent.putExtra(Activity_RentBoards.EXTRA_KEY_START_DATE, startDate);
         myIntent.putExtra(Activity_RentBoards.EXTRA_KEY_END_DATE, endDate);
+        myIntent.putExtra(Activity_RentBoards.EXTRA_KEY_ALL_BOARDS, boardsForRentJson);
 
         startActivity(myIntent);
         finish();

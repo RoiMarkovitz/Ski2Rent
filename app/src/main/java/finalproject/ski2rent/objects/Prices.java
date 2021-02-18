@@ -2,7 +2,9 @@ package finalproject.ski2rent.objects;
 
 import java.util.ArrayList;
 
-// TODO maybe make singleton
+import finalproject.ski2rent.utils.FireBaseManager;
+
+// TODO maybe make singleton - here it should be probably singelton
 
 public class Prices {
 
@@ -10,6 +12,18 @@ public class Prices {
     private static final int[] DAYS_BEFORE_DISCOUNT = {7, 14, 28};
 
     private ArrayList<PriceRecord> priceTable = new ArrayList<>();
+
+    private static Prices instance;
+
+    public static Prices getInstance() {
+        return instance;
+    }
+
+    public static void init() {
+        if (instance == null) {
+            instance = new Prices();
+        }
+    }
 
     public Prices() {}
 
