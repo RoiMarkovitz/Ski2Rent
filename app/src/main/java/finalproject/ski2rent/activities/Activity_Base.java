@@ -18,6 +18,7 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
+import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_Base extends AppCompatActivity {
     private boolean isShoppingCartReturned = false;
@@ -63,6 +64,13 @@ public class Activity_Base extends AppCompatActivity {
             if (id == R.id.cart && isShoppingCartReturned) {
                 openShoppingCartActivity(this);
             } else if (id == R.id.login) {
+                openLoginActivity(this);
+            }
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+            if (id == R.id.cart && firebaseUser == null) {
                 openLoginActivity(this);
             }
 
