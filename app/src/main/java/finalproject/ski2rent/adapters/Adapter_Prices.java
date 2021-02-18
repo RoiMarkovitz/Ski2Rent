@@ -38,7 +38,7 @@ public class Adapter_Prices extends RecyclerView.Adapter<Adapter_Prices.MyViewHo
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.d("pttt", "Binding " + position);
+    //    Log.d("pttt", "Binding " + position);
         PriceRecord price = mData.get(position);
 
         if (price.getKey().equals("extraDays")) {

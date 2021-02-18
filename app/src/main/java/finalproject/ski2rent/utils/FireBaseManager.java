@@ -2,6 +2,13 @@ package finalproject.ski2rent.utils;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,17 +21,25 @@ import java.util.Map;
 
 import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
+import finalproject.ski2rent.callbacks.CallBack_GetCustomerData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
+import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
+import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
+import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
 import finalproject.ski2rent.objects.Board;
 import finalproject.ski2rent.objects.BoardForRent;
+import finalproject.ski2rent.objects.Customer;
 import finalproject.ski2rent.objects.PriceRecord;
+import finalproject.ski2rent.objects.Prices;
+import finalproject.ski2rent.objects.ShoppingCart;
 
 public class FireBaseManager {
     private HashMap<String, PriceRecord> pricesMap = new HashMap<>();
 
   //  private CallBack_PriceData callBack_priceData;
   //  private CallBack_AllPriceData callBack_allPriceData;
+
     private static FireBaseManager instance;
 
     public static FireBaseManager getInstance() {
@@ -48,6 +63,86 @@ public class FireBaseManager {
 //    }
 
 
+
+    public void updateCustomerUser(Customer customer, CallBack_UpdateCustomerData callback) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = firebaseUser.getUid();
+        String phone = firebaseUser.getPhoneNumber();
+
+        if (customer == null) { // first time login event
+            customer = new Customer()
+                    .setUid(uid)
+                    .setPhone(phone)
+                    .setName(firebaseUser.getDisplayName());
+
+            initShoppingCartForFirstTimeCustomerUser(uid);
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("customers");
+        myRef.child(uid).setValue(customer);
+
+        callback.updated();
+    }
+
+    public void readCustomerUserData(String uid, CallBack_GetCustomerData callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("customers");
+
+        myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Customer c = dataSnapshot.getValue(Customer.class);
+                Log.d("pttt", "Value is: " + c.getName());
+                callback.retrieveCustomer(c);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("pttt", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void initShoppingCartForFirstTimeCustomerUser(String customerKey) {
+        ShoppingCart sc = new ShoppingCart();
+        sc.setCustomerKey(customerKey);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shopping_carts");
+        myRef.child(sc.getCustomerKey()).setValue(sc);
+
+    }
+
+    public void readShoppingCartDataFromServer(String customerKey, CallBack_GetShoppingCartData callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shopping_carts");
+
+        myRef.child(customerKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ShoppingCart sc = dataSnapshot.getValue(ShoppingCart.class);
+                Log.d("pttt", "Value is: " + sc);
+                callback.retrieveShoppingCart(sc);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("pttt", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    public void updateShoppingCartToServer(ShoppingCart sc, CallBack_UpdateShoppingCartData callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shopping_carts");
+
+        myRef.child(sc.getCustomerKey()).setValue(sc);
+
+        callback.updated();
+    }
+
+
     public void readAllPricesFromServer(CallBack_AllPriceData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("prices");
@@ -57,9 +152,8 @@ public class FireBaseManager {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     priceTable.add(child.getValue(PriceRecord.class));
-
                 }
-                Log.d("pttt", "Value isarray: " + priceTable.get(0).getDays() + " " +priceTable.get(0).getBronzePrice());
+      //          Log.d("pttt", "Value isarray: " + priceTable.get(0).getDays() + " " +priceTable.get(0).getBronzePrice());
                 callback.retrieveAllPriceRecord(priceTable);
             }
 
@@ -80,7 +174,7 @@ public class FireBaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 PriceRecord p = dataSnapshot.getValue(PriceRecord.class);
-                Log.d("pttt", "Value is: " + p.getDays() + " " +p.getBronzePrice());
+       //         Log.d("pttt", "Value is: " + p.getDays() + " " +p.getBronzePrice());
                 callback.retrievePriceRecord(p);
             }
 
@@ -107,7 +201,7 @@ public class FireBaseManager {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     boards.add(child.getValue(BoardForRent.class));
                 }
-                Log.d("pttt", "Board in array: " + boards.get(0).description());
+       //         Log.d("pttt", "Board in array: " + boards.get(0).description());
                 callback.retrieveAllBoardsForRent(boards);
             }
 

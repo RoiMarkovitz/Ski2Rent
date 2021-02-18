@@ -25,6 +25,7 @@ import finalproject.ski2rent.objects.MockPrices;
 
 import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.RentedBoard;
+import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.MyViewHolder>  {
 
@@ -158,6 +159,8 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
                         boardToCart.setPrice(board.getPrice());
 
 //                        boardToCart.setLength()
+                        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                      //  fireBaseManager.updateShoppingCartToServer();
 
                         mClickListener.onAddToCartClick(getAdapterPosition(), boardToCart);
                     }

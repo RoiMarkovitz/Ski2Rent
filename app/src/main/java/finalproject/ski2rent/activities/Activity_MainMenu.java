@@ -22,11 +22,13 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
+import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.objects.Board;
 import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.Prices;
+import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
 
 // TODO remember class related logic in view
@@ -37,13 +39,16 @@ public class Activity_MainMenu extends Activity_Base {
     private Button menu_BTN_skis;
     private Button menu_BTN_snowboards;
     private Button menu_BTN_ordersStatus;
+    private Button menu_BTN_signOut;
     private ImageView menu_IMG_background;
     private boolean isPricesFinished = false;
     private boolean isSnowboardsForRentFinished = false;
     private boolean isSkisForRentFinished = false;
-    private ArrayList<PriceRecord> priceTable;
+
+ //   private ArrayList<PriceRecord> priceTable;
     private ArrayList<BoardForRent> snowboardsForRent;
     private ArrayList<BoardForRent> skisForRent;
+
  //   private BoardForRent board;
 
     @Override
@@ -57,12 +62,27 @@ public class Activity_MainMenu extends Activity_Base {
 //        fireBaseManager.loadSnowboards();
 //        fireBaseManager.loadSkis();
         //     fireBaseManager.setCallBack_PriceData(callBack_priceData);
-        //    validateUser();
+
+    //    FirebaseAuth.getInstance().signOut();
+    //    validateUser();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+    //    String uid = firebaseUser.getUid();
+        if (firebaseUser != null) {
+            Log.d("pttt", "Uid = " + firebaseUser.getUid());
+            Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
+            //   Log.d("pttt", "Email = " + firebaseUser.getEmail());
+            Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
+        }
+
+
 
         fireBaseManager.readAllPricesFromServer(new CallBack_AllPriceData() {
             @Override
             public void retrieveAllPriceRecord(ArrayList<PriceRecord> pTable) {
-                priceTable = pTable;
+                Prices.getInstance().setPriceTable(pTable);
+     //           priceTable = pTable;
                 isPricesFinished = true;
             }
         });
@@ -83,12 +103,9 @@ public class Activity_MainMenu extends Activity_Base {
             }
         });
 
-//        fireBaseManager.readBoardForRentDataFromServer("B001", Board.eType.Snowboard, new CallBack_BoardForRent() {
-//            @Override
-//            public void retrieveBoardForRent(BoardForRent b) {
-//                board = b;
-//            }
-//        });
+
+
+
 
         findViews();
 
@@ -109,7 +126,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_skis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSkisForRentFinished) {
+                if (isSkisForRentFinished && isPricesFinished) {
                     openRentDatesActivity(Activity_MainMenu.this, "Ski");
                 }
             }
@@ -118,7 +135,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_snowboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSnowboardsForRentFinished) {
+                if (isSnowboardsForRentFinished && isPricesFinished) {
                     openRentDatesActivity(Activity_MainMenu.this, "Snowboard");
                 }
             }
@@ -131,57 +148,36 @@ public class Activity_MainMenu extends Activity_Base {
             }
         });
 
+        menu_BTN_signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
+
     } // onCreate
 
-//    public CallBack_PriceData callBack_priceData = new CallBack_PriceData() {
-//        @Override
-//        public void retrievePriceRecord(PriceRecord p) {
-//
-//            day = p.getDays();
-//         //   menu_BTN_prices.setText("" + day);
-//            pRecord.setKey(p.getKey());
-//            pRecord.setDays(p.getDays());
-//            pRecord.setBronzePrice(p.getBronzePrice());
-//            pRecord.setSilverPrice(p.getSilverPrice());
-//            pRecord.setGoldPrice(p.getGoldPrice());
-//
-//        }
-//    };
+    private void validateUser() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        if (firebaseUser == null) {
+            Intent myIntent = new Intent(this, Activity_Login.class);
+            startActivity(myIntent);
+            finish();
+            return;
+        }
 
-//    private void validateUser() {
-//        // these are singletons, can be called from anywhere no need context
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//
-//        if (firebaseUser == null) {
-//            Intent myIntent = new Intent(this, Activity_Login.class);
-//            startActivity(myIntent);
-//            finish();
-//            return;
-//        }
-//
-//        Log.d("pttt", "Uid = " + firebaseUser.getUid());
-//        Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
-//        Log.d("pttt", "Email = " + firebaseUser.getEmail());
-//        Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
-//        Log.d("pttt", "PhotoUrl = " + firebaseUser.getPhotoUrl());
-//
-////        firebaseAuth.signOut();
-////        FirebaseAuth.getInstance().signOut();
-//
-//    }
+        Log.d("pttt", "Uid = " + firebaseUser.getUid());
+        Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
+     //   Log.d("pttt", "Email = " + firebaseUser.getEmail());
+        Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
+    //    Log.d("pttt", "PhotoUrl = " + firebaseUser.getPhotoUrl());
 
-//    private void updateDisplayName(String name) {
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//
-//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-//                .setDisplayName(name)
-//                .build();
-//        firebaseUser.updateProfile(profileUpdates);
-//        firebaseAuth.updateCurrentUser(firebaseUser);
-//    }
+//        firebaseAuth.signOut();
+//        FirebaseAuth.getInstance().signOut();
+
+    }
 
     private void findViews() {
         menu_BTN_prices = findViewById(R.id.menu_BTN_prices);
@@ -189,16 +185,16 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_snowboards = findViewById(R.id.menu_BTN_snowboards);
         menu_BTN_ordersStatus = findViewById(R.id.menu_BTN_ordersStatus);
         menu_IMG_background = findViewById(R.id.menu_IMG_background);
+        menu_BTN_signOut = findViewById(R.id.menu_BTN_signOut);
 //        menu_BTN_prices.setOnClickListener(this);
     }
 
     private void openPricesActivity(Activity activity) {
-        // TODO should probably no need to move object, as its singleton
-        Prices prices = Prices.getInstance();
-        prices.setPriceTable(priceTable);
-        String pTableJson = new Gson().toJson(prices);
+//        Prices prices = Prices.getInstance();
+//        prices.setPriceTable(priceTable);
+ //       String pTableJson = new Gson().toJson(Prices.getInstance());
         Intent myIntent = new Intent(activity, Activity_Prices.class);
-        myIntent.putExtra(Activity_Prices.EXTRA_KEY_PRICE, pTableJson);
+   //     myIntent.putExtra(Activity_Prices.EXTRA_KEY_PRICE, pTableJson);
         startActivity(myIntent);
     }
 
@@ -250,6 +246,9 @@ public class Activity_MainMenu extends Activity_Base {
         Log.d("mainMenuLifeCycle", "onDestroy: Activity_MainMenu");
         super.onDestroy();
     }
+
+
+
 //
 //    @Override
 //    public void onClick(View v) {

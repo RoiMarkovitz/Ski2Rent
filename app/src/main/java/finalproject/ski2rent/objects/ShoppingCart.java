@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ShoppingCart {
 
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
-    // TODO CUSTOMER ID
+    private String customerKey = "";
 
     public ShoppingCart() {}
 
@@ -18,6 +18,14 @@ public class ShoppingCart {
         return this;
     }
 
+    public String getCustomerKey() {
+        return customerKey;
+    }
+
+    public ShoppingCart setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
+        return this;
+    }
 
     // TODO probably not needed because of firebase
     public void addToCart(RentedBoard boardToCart) {

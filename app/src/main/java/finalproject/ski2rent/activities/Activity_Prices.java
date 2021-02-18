@@ -23,10 +23,10 @@ import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Prices extends Activity_Base {
-    public static final String EXTRA_KEY_PRICE = "EXTRA_KEY_PRICE";
+ //   public static final String EXTRA_KEY_PRICE = "EXTRA_KEY_PRICE";
 
     private RecyclerView prices_LST_records;
-    private Prices prices;
+ //   private Prices prices;
     private Gson gson;
 
     @Override
@@ -37,12 +37,13 @@ public class Activity_Prices extends Activity_Base {
 
         gson = new Gson();
 
-        String pTableJson = getIntent().getStringExtra(EXTRA_KEY_PRICE);
-        prices = new Gson().fromJson(pTableJson, Prices.class);
+//        String pTableJson = getIntent().getStringExtra(EXTRA_KEY_PRICE);
+//        prices = new Gson().fromJson(pTableJson, Prices.class);
 
         findViews();
 
-        ArrayList<PriceRecord> priceTable = prices.getPriceTable();
+        ArrayList<PriceRecord> priceTable = Prices.getInstance().getPriceTable();
+  //      ArrayList<PriceRecord> priceTable = prices.getPriceTable();
 
         prices_LST_records.setLayoutManager(new LinearLayoutManager(this));
         Adapter_Prices adapter_prices = new Adapter_Prices(this, priceTable);

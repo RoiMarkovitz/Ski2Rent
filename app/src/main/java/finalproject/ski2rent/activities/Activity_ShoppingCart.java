@@ -10,17 +10,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_ShoppingCart;
+import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
+import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.MockShoppingCart;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
+import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_ShoppingCart extends Activity_Base {
+    public static final String EXTRA_KEY_SHOPPING_CART = "EXTRA_KEY_SHOPPING_CART";
+
+    private boolean isShoppingCartUpdated = false;
 
     private ShoppingCart shoppingCart = new ShoppingCart();
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
@@ -35,10 +45,13 @@ public class Activity_ShoppingCart extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__shopping_cart);
 
-        findViews();
+        String shoppingCartJson = getIntent().getStringExtra(EXTRA_KEY_SHOPPING_CART);
+        shoppingCart = new Gson().fromJson(shoppingCartJson, ShoppingCart.class);
 
-        boardsInCart = MockShoppingCart.generateSnowboards();
-        shoppingCart.setBoardsInCart(boardsInCart);
+        findViews();
+        boardsInCart = shoppingCart.getBoardsInCart();
+    //    boardsInCart = MockShoppingCart.generateSnowboards();
+    //    shoppingCart.setBoardsInCart(boardsInCart);
 
         setTextTotalPrice();
 
@@ -53,7 +66,13 @@ public class Activity_ShoppingCart extends Activity_Base {
 
             @Override
             public void onCancelItemClick(int position) {
-                // TODO update in fire base shopping cart with the removal
+                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
+                    @Override
+                    public void updated() {
+                        isShoppingCartUpdated = true;
+                    }
+                });
                 setTextTotalPrice();
             }
         });

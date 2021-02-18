@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,12 +19,15 @@ import java.util.List;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_RentBoards;
+import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
+import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
 import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.MockSkis;
 import finalproject.ski2rent.objects.MockSnowboards;
 import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
+import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MyDateUtil;
 import finalproject.ski2rent.utils.MySignals;
 
@@ -34,6 +39,8 @@ public class Activity_RentBoards extends Activity_Base {
 
 
     private ShoppingCart shoppingCart = new ShoppingCart();
+    private boolean isShoppingCartReturned = false;
+    private boolean isShoppingCartUpdated = false;
     private Gson gson;
 
     private RecyclerView rentBoards_LST_boards;
@@ -44,6 +51,17 @@ public class Activity_RentBoards extends Activity_Base {
         Log.d("RentBoardsLifeCycle", "onCreate: Activity_RentBoards");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_boards);
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = firebaseUser.getUid();
+        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+        fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
+            @Override
+            public void retrieveShoppingCart(ShoppingCart sc) {
+                shoppingCart = sc;
+                isShoppingCartReturned = true;
+            }
+        });
 
         ArrayList<BoardForRent> boardsForRent = new ArrayList<>();
         gson = new Gson();
@@ -65,6 +83,7 @@ public class Activity_RentBoards extends Activity_Base {
 
         rentBoards_LST_boards.setLayoutManager(new LinearLayoutManager(this));
         Adapter_RentBoards adapter_rent_boards = new Adapter_RentBoards(this, boardsForRent, rentDays, daysBeforePickup);
+        rentBoards_LST_boards.setAdapter(adapter_rent_boards);
 
         adapter_rent_boards.setClickListener(new Adapter_RentBoards.ItemClickListener() {
             @Override
@@ -74,12 +93,19 @@ public class Activity_RentBoards extends Activity_Base {
             public void onAddToCartClick(int position, RentedBoard boardToCart) {
                 // TODO probably just need to add to firebase
                 shoppingCart.addToCart(boardToCart);
-                MySignals.getInstance().toast("Item added to cart!");
-                MySignals.getInstance().vibrate();
+                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
+                    @Override
+                    public void updated() {
+                        isShoppingCartUpdated = true;
+                        MySignals.getInstance().toast("Item added to cart!");
+                        MySignals.getInstance().vibrate();
+                    }
+                });
             }
         });
 
-        rentBoards_LST_boards.setAdapter(adapter_rent_boards);
+
 
     } // onCreate
 

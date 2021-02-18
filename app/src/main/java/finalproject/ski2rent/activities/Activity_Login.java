@@ -1,27 +1,38 @@
 package finalproject.ski2rent.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
 
 
 import java.util.Arrays;
 
 
 import finalproject.ski2rent.R;
+import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
+import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Login extends Activity_Base {
 
     private final int RC_SIGN_IN = 1234;
+    private Context context;
 
     // https://firebase.google.com/docs/auth/android/firebaseui?authuser=0
     // https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md
@@ -32,6 +43,8 @@ public class Activity_Login extends Activity_Base {
         Log.d("loginLifeCycle", "onCreate: Activity_Login");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__login);
+
+        context = this;
 
 //        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 //        FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -62,7 +75,8 @@ public class Activity_Login extends Activity_Base {
 
     private void openApp() {
         Log.d("pttt", "openApp");
-        Intent myIntent = new Intent(this, Activity_MainMenu.class);
+
+        Intent myIntent = new Intent(context, Activity_MainMenu.class);
         startActivity(myIntent);
         finish();
     }
@@ -75,7 +89,25 @@ public class Activity_Login extends Activity_Base {
 
             // Successfully signed in
             if (resultCode == RESULT_OK) {
-                openApp();
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseUserMetadata metadata = firebaseUser.getMetadata();
+                if (metadata.getCreationTimestamp() == metadata.getLastSignInTimestamp()) {
+                    Log.d("pttt", "new user");
+                    // The user is new.
+                    FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                    fireBaseManager.updateCustomerUser(null ,new CallBack_UpdateCustomerData() {
+                        @Override
+                        public void updated() {
+                            openApp();
+                        }
+                    });
+
+                } else {
+                    Log.d("pttt", "existing user");
+                    // This is an existing user.
+                    openApp();
+                }
+
             } else {
                 // Sign in failed
                 if (response == null) {
