@@ -89,7 +89,7 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
-        void onActionItemClick(int position);
+        void onActionItemClick(int position, Order o);
     }
 
     // stores and recycles views as they are scrolled off screen
@@ -126,7 +126,7 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
 
                         notifyDataSetChanged();
 
-                        mClickListener.onActionItemClick(getAdapterPosition());
+                        mClickListener.onActionItemClick(getAdapterPosition(), order);
                     }
                 }
             });

@@ -22,9 +22,6 @@ import finalproject.ski2rent.adapters.Adapter_RentBoards;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
 import finalproject.ski2rent.objects.BoardForRent;
-import finalproject.ski2rent.objects.MockSkis;
-import finalproject.ski2rent.objects.MockSnowboards;
-import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
@@ -79,6 +76,7 @@ public class Activity_RentBoards extends Activity_Base {
         int rentDays = MyDateUtil.calculateDaysDifferenceWithLastDay(startRentDate, endRentDate);
         int daysBeforePickup = getDaysBeforePickup(startRentDate);
 
+
         setLayoutTitle(boardType);
 
         rentBoards_LST_boards.setLayoutManager(new LinearLayoutManager(this));
@@ -91,6 +89,15 @@ public class Activity_RentBoards extends Activity_Base {
 
             @Override
             public void onAddToCartClick(int position, RentedBoard boardToCart) {
+                if (shoppingCart.getBoardsInCart().size() == 0) {
+                    if (shoppingCart.getPickupDate() == 0) {
+                        shoppingCart.setPickupDate(startRentDate);
+                    }
+                    if (shoppingCart.getReturnDate() == 0) {
+                        shoppingCart.setReturnDate(endRentDate);
+                    }
+                }
+
                 // TODO probably just need to add to firebase
                 shoppingCart.addToCart(boardToCart);
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();

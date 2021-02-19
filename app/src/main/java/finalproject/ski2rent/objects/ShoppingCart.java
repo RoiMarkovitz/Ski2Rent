@@ -6,6 +6,8 @@ public class ShoppingCart {
 
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
     private String customerKey = "";
+    private long pickupDate = 0;
+    private long returnDate = 0;
 
     public ShoppingCart() {}
 
@@ -15,6 +17,24 @@ public class ShoppingCart {
 
     public ShoppingCart setBoardsInCart(ArrayList<RentedBoard> boardsInCart) {
         this.boardsInCart = boardsInCart;
+        return this;
+    }
+
+    public long getPickupDate() {
+        return pickupDate;
+    }
+
+    public ShoppingCart setPickupDate(long pickupDate) {
+        this.pickupDate = pickupDate;
+        return this;
+    }
+
+    public long getReturnDate() {
+        return returnDate;
+    }
+
+    public ShoppingCart setReturnDate(long returnDate) {
+        this.returnDate = returnDate;
         return this;
     }
 

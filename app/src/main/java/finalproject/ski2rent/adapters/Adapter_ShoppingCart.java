@@ -45,6 +45,10 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
 
     }
 
+    public ArrayList<RentedBoard> getRentedBoards() {
+        return mData;
+    }
+
     // total number of rows
     @Override
     public int getItemCount() {

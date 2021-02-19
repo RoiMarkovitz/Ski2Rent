@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import finalproject.ski2rent.R;
 
 import finalproject.ski2rent.objects.BoardForRent;
-import finalproject.ski2rent.objects.MockPrices;
 
 import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.RentedBoard;

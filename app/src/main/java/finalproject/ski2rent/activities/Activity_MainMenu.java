@@ -22,10 +22,12 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
+import finalproject.ski2rent.callbacks.CallBack_GetAllOrdersData;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.objects.Board;
 import finalproject.ski2rent.objects.BoardForRent;
+import finalproject.ski2rent.objects.Order;
 import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.ShoppingCart;
@@ -44,10 +46,12 @@ public class Activity_MainMenu extends Activity_Base {
     private boolean isPricesFinished = false;
     private boolean isSnowboardsForRentFinished = false;
     private boolean isSkisForRentFinished = false;
+    private boolean isOrdersFinished = false;
 
  //   private ArrayList<PriceRecord> priceTable;
     private ArrayList<BoardForRent> snowboardsForRent;
     private ArrayList<BoardForRent> skisForRent;
+    private ArrayList<Order> orders;
 
  //   private BoardForRent board;
 
@@ -69,14 +73,12 @@ public class Activity_MainMenu extends Activity_Base {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
     //    String uid = firebaseUser.getUid();
-        if (firebaseUser != null) {
+        if (fireBaseManager.isCurrentUserLoggedIn()) {
             Log.d("pttt", "Uid = " + firebaseUser.getUid());
             Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
             //   Log.d("pttt", "Email = " + firebaseUser.getEmail());
             Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
         }
-
-
 
         fireBaseManager.readAllPricesFromServer(new CallBack_AllPriceData() {
             @Override
@@ -103,8 +105,15 @@ public class Activity_MainMenu extends Activity_Base {
             }
         });
 
-
-
+        if (fireBaseManager.isCurrentUserLoggedIn()) {
+            fireBaseManager.readAllOrdersFromServer(new CallBack_GetAllOrdersData() {
+                @Override
+                public void retrieveAllOrders(ArrayList<Order> o) {
+                    orders = o;
+                    isOrdersFinished = true;
+                }
+            });
+        }
 
 
         findViews();
@@ -144,7 +153,9 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_ordersStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openOrdersStatusActivity(Activity_MainMenu.this);
+                if (isOrdersFinished && fireBaseManager.isCurrentUserLoggedIn()) {
+                    openOrdersStatusActivity(Activity_MainMenu.this);
+                }
             }
         });
 
@@ -213,13 +224,27 @@ public class Activity_MainMenu extends Activity_Base {
     }
 
     private void openOrdersStatusActivity(Activity activity) {
+        String ordersJson = new Gson().toJson(orders);
+
         Intent myIntent = new Intent(activity, Activity_OrdersStatus.class);
+        myIntent.putExtra(Activity_OrdersStatus.EXTRA_KEY_ALL_ORDERS, ordersJson);
         startActivity(myIntent);
     }
 
     @Override
     protected void onStart() {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
+        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+        if (fireBaseManager.isCurrentUserLoggedIn()) {
+            fireBaseManager.readAllOrdersFromServer(new CallBack_GetAllOrdersData() {
+                @Override
+                public void retrieveAllOrders(ArrayList<Order> o) {
+                    orders = o;
+                    isOrdersFinished = true;
+                }
+            });
+        }
+
         super.onStart();
     }
 

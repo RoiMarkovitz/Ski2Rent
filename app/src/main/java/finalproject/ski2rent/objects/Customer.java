@@ -4,8 +4,6 @@ public class Customer {
     private String uid = "";
     private String name = "";
     private String phone = "";
- //   private String favoriteSushi = null;   // reference
- //   private Sushi favoriteSushi = null;   // copy
 
     public Customer() { }
 
@@ -35,14 +33,5 @@ public class Customer {
         this.phone = phone;
         return this;
     }
-
-//    public String getFavoriteSushi() {
-//        return favoriteSushi;
-//    }
-//
-//    public User setFavoriteSushi(String favoriteSushi) {
-//        this.favoriteSushi = favoriteSushi;
-//        return this;
-//    }
 
 }

@@ -4,24 +4,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_ShoppingCart;
+import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
 import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
-import finalproject.ski2rent.objects.BoardForRent;
-import finalproject.ski2rent.objects.MockShoppingCart;
+import finalproject.ski2rent.objects.Order;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
@@ -33,7 +32,9 @@ public class Activity_ShoppingCart extends Activity_Base {
     private boolean isShoppingCartUpdated = false;
 
     private ShoppingCart shoppingCart = new ShoppingCart();
+
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
+
 
     private RecyclerView shoppingCart_LST_records;
     private TextView shoppingCart_LBL_totalPrice;
@@ -49,9 +50,14 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart = new Gson().fromJson(shoppingCartJson, ShoppingCart.class);
 
         findViews();
+
         boardsInCart = shoppingCart.getBoardsInCart();
     //    boardsInCart = MockShoppingCart.generateSnowboards();
     //    shoppingCart.setBoardsInCart(boardsInCart);
+
+        if (boardsInCart.size() == 0) {
+            shoppingCart_BTN_checkOut.setEnabled(false);
+        }
 
         setTextTotalPrice();
 
@@ -60,12 +66,13 @@ public class Activity_ShoppingCart extends Activity_Base {
 
         adapter_boards.setClickListener(new Adapter_ShoppingCart.ItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-
-            }
+            public void onItemClick(View view, int position) {}
 
             @Override
             public void onCancelItemClick(int position) {
+                if (boardsInCart.size() == 0) {
+                    shoppingCart_BTN_checkOut.setEnabled(false);
+                }
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
                     @Override
@@ -82,9 +89,20 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart_BTN_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MySignals.getInstance().toast("Thanks for buying!");
-                // TODO update in fire base shopping cart
-                finish();
+                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = firebaseUser.getUid();
+                ArrayList<RentedBoard> boardsToOrder = adapter_boards.getRentedBoards();
+                Order order = new Order(uid, boardsToOrder, shoppingCart.getPickupDate(), shoppingCart.getReturnDate());
+
+                fireBaseManager.updateOrderToServer(uid, order,  new CallBack_UpdateOrderData() {
+                    @Override
+                    public void updated() {
+                        MySignals.getInstance().toast("Thanks for buying!");
+                        finish();
+                        // return
+                    }
+                });
             }
         });
 

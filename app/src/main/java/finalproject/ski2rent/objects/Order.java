@@ -10,7 +10,7 @@ public class Order {
     private static int idGenerator = 1;
 
     private int id = 0;
-    // TODO maybe userid
+    private String customerKey = "";
     // maybe add discount of the order if needed to show later, not so important
     private ArrayList<RentedBoard> boards = new ArrayList<>();
     private long orderDate = 0;
@@ -20,10 +20,12 @@ public class Order {
 
     public Order() {}
 
-    public Order(ArrayList<RentedBoard> boards) {
+    public Order(String customerKey, ArrayList<RentedBoard> boards, long pickupDate, long returnDate) {
         this.boards = boards;
         this.orderDate = System.currentTimeMillis();
-
+        this.customerKey = customerKey;
+        this.pickupDate = pickupDate;
+        this.returnDate = returnDate;
 
         // late and return possible
 //        this.pickupDate = System.currentTimeMillis() - (24 * 60 * 60 * 1000) * 6;
@@ -32,8 +34,8 @@ public class Order {
 //        this.pickupDate = System.currentTimeMillis() - (24 * 60 * 60 * 1000) * 2;
 //        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 7;
         // Ordered and cancel possible
-        this.pickupDate = System.currentTimeMillis() + (24 * 60 * 60 * 1000) * 7;
-        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
+//        this.pickupDate = System.currentTimeMillis() + (24 * 60 * 60 * 1000) * 7;
+//        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
         // Ordered and nothing is possible. 24 hours window
 //        this.pickupDate = System.currentTimeMillis() + (12 * 60 * 60 * 1000);
 //        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
@@ -42,9 +44,23 @@ public class Order {
         this.id = idGenerator++;
     }
 
+    public String getCustomerKey() {
+        return customerKey;
+    }
+
+    public Order setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
+        return this;
+    }
+
     public eStatus getStatus() {
         return status;
     }
+
+//    public Order setStatus(eStatus status) {
+//        this.status = status;
+//        return this;
+//    }
 
     public Order setStatus(eStatus status) {
         if (this.status == eStatus.Returned || this.status == eStatus.Cancelled) {

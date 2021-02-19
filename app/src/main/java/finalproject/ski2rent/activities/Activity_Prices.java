@@ -10,17 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import finalproject.ski2rent.R;
 
 import finalproject.ski2rent.adapters.Adapter_Prices;
-import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
-import finalproject.ski2rent.callbacks.CallBack_PriceData;
-import finalproject.ski2rent.objects.MockPrices;
 import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.Prices;
-import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Prices extends Activity_Base {
  //   public static final String EXTRA_KEY_PRICE = "EXTRA_KEY_PRICE";

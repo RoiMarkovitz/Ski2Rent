@@ -1,27 +1,31 @@
 package finalproject.ski2rent.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_OrdersStatus;
-import finalproject.ski2rent.adapters.Adapter_ShoppingCart;
-import finalproject.ski2rent.objects.MockShoppingCart;
+import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
+import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.Order;
-import finalproject.ski2rent.objects.RentedBoard;
-import finalproject.ski2rent.objects.ShoppingCart;
+import finalproject.ski2rent.utils.FireBaseManager;
+import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_OrdersStatus extends Activity_Base {
+    public static final String EXTRA_KEY_ALL_ORDERS = "EXTRA_KEY_ALL_ORDERS";
 
     private ArrayList<Order> orders = new ArrayList<>();
 
@@ -33,13 +37,11 @@ public class Activity_OrdersStatus extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__orders_status);
 
+        String ordersJson = getIntent().getStringExtra(EXTRA_KEY_ALL_ORDERS);
+        Type listType = new TypeToken<List<Order>>(){}.getType();
+        orders = new Gson().fromJson(ordersJson, listType);
+
         findViews();
-
-        Order order1 = new Order(MockShoppingCart.generateSnowboards());
-        Order order2 = new Order(MockShoppingCart.generateSnowboards());
-
-        orders.add(order1);
-        orders.add(order2);
 
         order_LST_records.setLayoutManager(new LinearLayoutManager(this));
         Adapter_OrdersStatus adapter_orders = new Adapter_OrdersStatus(this, orders);
@@ -50,9 +52,18 @@ public class Activity_OrdersStatus extends Activity_Base {
             }
 
             @Override
-            public void onActionItemClick(int position) {
+            public void onActionItemClick(int position, Order o) {
                 //      boardsInCart.remove(position);
-                // TODO update in fire base shopping cart
+                Order order;
+                order = o;
+                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                fireBaseManager.updateOrderToServer(fireBaseManager.getUidCurrentUser(),order, new CallBack_UpdateOrderData() {
+                    @Override
+                    public void updated() {
+
+                        MySignals.getInstance().toast("status changed");
+                    }
+                });
 
             }
         });

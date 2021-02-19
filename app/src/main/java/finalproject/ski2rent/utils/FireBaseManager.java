@@ -2,11 +2,7 @@ package finalproject.ski2rent.utils;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,24 +17,25 @@ import java.util.Map;
 
 import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
+import finalproject.ski2rent.callbacks.CallBack_GetAllOrdersData;
 import finalproject.ski2rent.callbacks.CallBack_GetCustomerData;
+import finalproject.ski2rent.callbacks.CallBack_GetOrderData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
+import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
 import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
 import finalproject.ski2rent.objects.Board;
 import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.Customer;
+import finalproject.ski2rent.objects.Order;
 import finalproject.ski2rent.objects.PriceRecord;
-import finalproject.ski2rent.objects.Prices;
 import finalproject.ski2rent.objects.ShoppingCart;
 
 public class FireBaseManager {
+    // can change to ArrayList
     private HashMap<String, PriceRecord> pricesMap = new HashMap<>();
-
-  //  private CallBack_PriceData callBack_priceData;
-  //  private CallBack_AllPriceData callBack_allPriceData;
 
     private static FireBaseManager instance;
 
@@ -54,15 +51,27 @@ public class FireBaseManager {
         }
     }
 
-//    public void setCallBack_PriceData(CallBack_PriceData _callBack_priceData) {
-//        this.callBack_priceData = _callBack_priceData;
-//    }
-//
-//    public void setCallBack_allPriceData(CallBack_AllPriceData _callBack_allPriceData) {
-//        this.callBack_allPriceData = _callBack_allPriceData;
-//    }
+    public boolean isCurrentUserLoggedIn() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        if (firebaseUser != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public String getUidCurrentUser() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+       // if ()
+
+        return uid;
+
+    }
 
     public void updateCustomerUser(Customer customer, CallBack_UpdateCustomerData callback) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -140,6 +149,72 @@ public class FireBaseManager {
         myRef.child(sc.getCustomerKey()).setValue(sc);
 
         callback.updated();
+    }
+
+
+    // in new function read / update number_of_orders data from / to server
+    //    DatabaseReference myRef = database.getReference("orders").child("number_of_orders");
+    public void readAllOrdersFromServer(CallBack_GetAllOrdersData callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("orders").child("customers_id");
+        ArrayList<Order> orders = new ArrayList<>();
+        myRef.child(getUidCurrentUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    orders.add(child.getValue(Order.class));
+                }
+                //          Log.d("pttt", "Value isarray: " + priceTable.get(0).getDays() + " " +priceTable.get(0).getBronzePrice());
+                callback.retrieveAllOrders(orders);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("pttt", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+
+    public void readOrderDataFromServer(String customerKey, CallBack_GetOrderData callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("orders").child("customers_id");
+
+        myRef.child(customerKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Order o = dataSnapshot.getValue(Order.class);
+                Log.d("pttt", "Value is: " + o);
+                callback.retrieveOrder(o);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("pttt", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    public void updateOrderToServer(String customerKey, Order o, CallBack_UpdateOrderData callback) {
+        ArrayList<Order> orders = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("orders").child("customers_id").child(o.getCustomerKey());
+      //  myRef.child(o.getCustomerKey());
+      //  myRef.push().setValue(o);
+        myRef.child(o.getId()+"").setValue(o);
+
+        ShoppingCart sc = new ShoppingCart();
+        sc.setCustomerKey(getUidCurrentUser());
+        updateShoppingCartToServer(sc, new CallBack_UpdateShoppingCartData() {
+            @Override
+            public void updated() {
+                callback.updated();
+            }
+        });
+
+     //   callback.updated(); // remove this
     }
 
 
