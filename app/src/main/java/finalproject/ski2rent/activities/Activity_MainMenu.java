@@ -23,6 +23,7 @@ import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
 import finalproject.ski2rent.callbacks.CallBack_GetAllOrdersData;
+import finalproject.ski2rent.callbacks.CallBack_GetLatestOrderIdNumber;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.objects.Board;
@@ -47,6 +48,7 @@ public class Activity_MainMenu extends Activity_Base {
     private boolean isSnowboardsForRentFinished = false;
     private boolean isSkisForRentFinished = false;
     private boolean isOrdersFinished = false;
+    private boolean isLatestOrderIdReturned = false;
 
  //   private ArrayList<PriceRecord> priceTable;
     private ArrayList<BoardForRent> snowboardsForRent;
@@ -244,6 +246,16 @@ public class Activity_MainMenu extends Activity_Base {
                 }
             });
         }
+
+     //   FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+       // check if latest id feild does not exist in data base
+        fireBaseManager.readOrderLatestIdNumberFromServer(new CallBack_GetLatestOrderIdNumber() {
+            @Override
+            public void retrieveLatestOrderIdNumber(int latestOrderId) {
+                Order.idGenerator = latestOrderId;
+                isLatestOrderIdReturned = true;
+            }
+        });
 
         super.onStart();
     }

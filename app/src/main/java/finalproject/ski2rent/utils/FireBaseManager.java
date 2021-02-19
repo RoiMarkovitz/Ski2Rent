@@ -19,6 +19,7 @@ import finalproject.ski2rent.callbacks.CallBack_AllBoardsForRent;
 import finalproject.ski2rent.callbacks.CallBack_AllPriceData;
 import finalproject.ski2rent.callbacks.CallBack_GetAllOrdersData;
 import finalproject.ski2rent.callbacks.CallBack_GetCustomerData;
+import finalproject.ski2rent.callbacks.CallBack_GetLatestOrderIdNumber;
 import finalproject.ski2rent.callbacks.CallBack_GetOrderData;
 import finalproject.ski2rent.callbacks.CallBack_PriceData;
 import finalproject.ski2rent.callbacks.CallBack_BoardForRent;
@@ -197,6 +198,26 @@ public class FireBaseManager {
 
     }
 
+    public void readOrderLatestIdNumberFromServer(CallBack_GetLatestOrderIdNumber callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("orders").child("latest_id");
+
+        myRef.child("latest").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int latestOrderIdNumber = dataSnapshot.getValue(Integer.class);
+
+                callback.retrieveLatestOrderIdNumber(latestOrderIdNumber);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("pttt", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
     public void updateOrderToServer(String customerKey, Order o, CallBack_UpdateOrderData callback) {
         ArrayList<Order> orders = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -205,6 +226,10 @@ public class FireBaseManager {
       //  myRef.push().setValue(o);
         myRef.child(o.getId()+"").setValue(o);
 
+        // update latest order id to server
+        myRef = database.getReference("orders").child("latest_id");
+        myRef.child("latest").setValue(o.getId());
+        // update to clear shopping cart
         ShoppingCart sc = new ShoppingCart();
         sc.setCustomerKey(getUidCurrentUser());
         updateShoppingCartToServer(sc, new CallBack_UpdateShoppingCartData() {
@@ -216,7 +241,6 @@ public class FireBaseManager {
 
      //   callback.updated(); // remove this
     }
-
 
     public void readAllPricesFromServer(CallBack_AllPriceData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Order {
 
     public enum eStatus {Ordered, Picked, Returned, Late, Cancelled};
-    private static int idGenerator = 1;
+    public static int idGenerator;
 
     private int id = 0;
     private String customerKey = "";
@@ -41,7 +41,7 @@ public class Order {
 //        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
 
         this.status = eStatus.Ordered;
-        this.id = idGenerator++;
+        this.id = ++idGenerator;
     }
 
     public String getCustomerKey() {

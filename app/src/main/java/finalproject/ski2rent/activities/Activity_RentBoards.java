@@ -98,7 +98,7 @@ public class Activity_RentBoards extends Activity_Base {
                     }
                 }
 
-                // TODO probably just need to add to firebase
+                // TODO probably just need to add to firebase or NOT.
                 shoppingCart.addToCart(boardToCart);
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
