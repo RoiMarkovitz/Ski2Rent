@@ -26,8 +26,9 @@ import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_Base extends AppCompatActivity {
-    private boolean isShoppingCartReturned = false;
-    private ShoppingCart shoppingCart;
+    protected boolean isShoppingCartReturned = false;
+    protected ShoppingCart shoppingCart;
+  //  private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +58,17 @@ public class Activity_Base extends AppCompatActivity {
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         // R.menu.my_menu is a reference to an xml file named my_menu.xml which should be inside your res/menu directory.
         getMenuInflater().inflate(R.menu.my_menu, menu);
+//        int id = menu.getItem(0).getItemId();
+        if (firebaseUser == null) {
+            menu.getItem(0).setIcon(R.drawable.ic_user_login);
+        } else {
+            menu.getItem(0).setIcon(R.drawable.ic_user_logout);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -66,23 +76,29 @@ public class Activity_Base extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-            if (id == R.id.cart && isShoppingCartReturned) {
-            //    isShoppingCartReturned = false;
-                openShoppingCartActivity(this);
-            } else if (id == R.id.login) {
-                openLoginActivity(this);
-            }
-
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-            if (id == R.id.cart && firebaseUser == null) {
+        if (id == R.id.cart) {
+            if (isShoppingCartReturned) {
+                openShoppingCartActivity(this);
+            }
+            if (firebaseUser == null) {
                 openLoginActivity(this);
             }
+        }
+
+        if (id == R.id.sign) {
+            if (firebaseUser == null) {
+                openLoginActivity(this);
+            } else {
+                FirebaseAuth.getInstance().signOut();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void openLoginActivity(Activity activity) {
         Intent myIntent = new Intent(this, Activity_Login.class);
@@ -108,7 +124,7 @@ public class Activity_Base extends AppCompatActivity {
 
     }
 
-    private void initShoppingCart() {
+    protected void initShoppingCart() {
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -29,6 +30,7 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
 import finalproject.ski2rent.utils.FireBaseManager;
 
+// TODO changing extends from Activity_Base to AppCompatActivity
 public class Activity_Login extends Activity_Base {
 
     private final int RC_SIGN_IN = 1234;

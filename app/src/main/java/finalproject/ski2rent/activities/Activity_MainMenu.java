@@ -42,7 +42,6 @@ public class Activity_MainMenu extends Activity_Base {
     private Button menu_BTN_skis;
     private Button menu_BTN_snowboards;
     private Button menu_BTN_ordersStatus;
-    private Button menu_BTN_signOut;
     private ImageView menu_IMG_background;
     private boolean isPricesFinished = false;
     private boolean isSnowboardsForRentFinished = false;
@@ -161,12 +160,6 @@ public class Activity_MainMenu extends Activity_Base {
             }
         });
 
-        menu_BTN_signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-            }
-        });
 
     } // onCreate
 
@@ -198,7 +191,6 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_snowboards = findViewById(R.id.menu_BTN_snowboards);
         menu_BTN_ordersStatus = findViewById(R.id.menu_BTN_ordersStatus);
         menu_IMG_background = findViewById(R.id.menu_IMG_background);
-        menu_BTN_signOut = findViewById(R.id.menu_BTN_signOut);
 //        menu_BTN_prices.setOnClickListener(this);
     }
 
@@ -257,32 +249,10 @@ public class Activity_MainMenu extends Activity_Base {
             }
         });
 
+
         super.onStart();
     }
 
-    @Override
-    protected void onResume() {
-        Log.d("mainMenuLifeCycle", "onResume: Activity_MainMenu");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("mainMenuLifeCycle", "onPause: Activity_MainMenu");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d("mainMenuLifeCycle", "onStop: Activity_MainMenu");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("mainMenuLifeCycle", "onDestroy: Activity_MainMenu");
-        super.onDestroy();
-    }
 
 
 

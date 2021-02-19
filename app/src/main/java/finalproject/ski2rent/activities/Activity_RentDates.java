@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
@@ -14,15 +17,36 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import finalproject.ski2rent.R;
+import finalproject.ski2rent.objects.ShoppingCart;
 
 public class Activity_RentDates extends Activity_Base {
     public static final String EXTRA_KEY_BOARD_TYPE = "EXTRA_KEY_BOARD_TYPE";
     public static final String EXTRA_KEY_ALL_BOARDS = "EXTRA_KEY_ALL_BOARDS";
 
+    private Button mPickDateButton;
+    private TextView mShowSelectedDateText;
+    private long pickupDateInCart;
+    private long returnDateInCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_dates);
+//        boolean b = this.isShoppingCartReturned;
+//        super.initShoppingCart();
+//
+//        ShoppingCart c = this.shoppingCart;
+//        pickupDateInCart = this.shoppingCart.getPickupDate();
+//        returnDateInCart = this.shoppingCart.getReturnDate();
+//
+//        if (pickupDateInCart != 0 || returnDateInCart != 0) {
+//            // should alert here
+//            finish();
+//        }
+
+
+        mPickDateButton = findViewById(R.id.pick_date_button);
+        mShowSelectedDateText = findViewById(R.id.show_selected_date);
 
         String boardType = getIntent().getStringExtra(EXTRA_KEY_BOARD_TYPE);
         String boardsForRentJson = getIntent().getStringExtra(EXTRA_KEY_ALL_BOARDS);
@@ -52,19 +76,37 @@ public class Activity_RentDates extends Activity_Base {
         // now create the instance of the material date picker
         final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
 
-        materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+      //  materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+
+        mPickDateButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // getSupportFragmentManager() to
+                        // interact with the fragments
+                        // associated with the material design
+                        // date picker tag is to get any error
+                        // in logcat
+                        materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                    }
+                });
 
         materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
             @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
                 Long startDate = selection.first;
                 Long endDate = selection.second;
+
+//                if (startDate == pickupDateInCart && endDate == returnDateInCart &&
+//                        pickupDateInCart != 0 && returnDateInCart != 0) {
+//
+//                }
+
                 String dateFormat1 = DateFormat.format("dd.MM.yy", startDate).toString();
                 String dateFormat2 = DateFormat.format("dd.MM.yy", endDate).toString();
                 Log.d("rrr", dateFormat1);
                 Log.d("rrr", dateFormat2);
 
                 openRentBoardsActivity(Activity_RentDates.this, boardType, startDate, endDate, boardsForRentJson);
-
             }
         });
 
