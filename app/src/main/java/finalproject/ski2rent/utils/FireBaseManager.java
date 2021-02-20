@@ -35,8 +35,8 @@ import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.ShoppingCart;
 
 public class FireBaseManager {
-    public boolean isShoppingCartReturned = false;
-    public ShoppingCart shoppingCart;
+    private boolean isShoppingCartReturned = false;
+    private ShoppingCart shoppingCart;
 
     private static FireBaseManager instance;
 
@@ -594,6 +594,23 @@ public class FireBaseManager {
         for (int i = 0 ; i < skis.size(); i++) {
             uploadBoardForRentToServer(skis.get(i), Board.eType.Ski);
         }
+    }
 
+    public boolean isShoppingCartReturned() {
+        return isShoppingCartReturned;
+    }
+
+    public FireBaseManager setShoppingCartReturned(boolean shoppingCartReturned) {
+        isShoppingCartReturned = shoppingCartReturned;
+        return this;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public FireBaseManager setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+        return this;
     }
 }

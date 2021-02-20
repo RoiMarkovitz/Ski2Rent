@@ -65,7 +65,7 @@ public class Activity_Login extends Activity_Base {
     private void openApp() {
         Log.d("pttt", "openApp");
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-        fireBaseManager.isShoppingCartReturned = false;
+        fireBaseManager.setShoppingCartReturned(false);
         Intent myIntent = new Intent(this, Activity_MainMenu.class);
         startActivity(myIntent);
         finish();

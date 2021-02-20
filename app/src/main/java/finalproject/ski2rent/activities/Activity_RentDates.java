@@ -18,6 +18,8 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.objects.ShoppingCart;
+import finalproject.ski2rent.utils.FireBaseManager;
+import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_RentDates extends Activity_Base {
     public static final String EXTRA_KEY_BOARD_TYPE = "EXTRA_KEY_BOARD_TYPE";
@@ -32,17 +34,8 @@ public class Activity_RentDates extends Activity_Base {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_dates);
-//        boolean b = this.isShoppingCartReturned;
-//        super.initShoppingCart();
-//
-//        ShoppingCart c = this.shoppingCart;
-//        pickupDateInCart = this.shoppingCart.getPickupDate();
-//        returnDateInCart = this.shoppingCart.getReturnDate();
-//
-//        if (pickupDateInCart != 0 || returnDateInCart != 0) {
-//            // should alert here
-//            finish();
-//        }
+
+
 
 
         mPickDateButton = findViewById(R.id.pick_date_button);
@@ -50,6 +43,21 @@ public class Activity_RentDates extends Activity_Base {
 
         String boardType = getIntent().getStringExtra(EXTRA_KEY_BOARD_TYPE);
         String boardsForRentJson = getIntent().getStringExtra(EXTRA_KEY_ALL_BOARDS);
+
+        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+        ShoppingCart shoppingCart = fireBaseManager.getShoppingCart();
+        if (shoppingCart != null) {
+            pickupDateInCart = shoppingCart.getPickupDate();
+            returnDateInCart = shoppingCart.getReturnDate();
+            if (pickupDateInCart != 0 || returnDateInCart != 0) {
+                // Cart already has dates. order is only for one date
+                // should alert here
+                MySignals.getInstance().toast("Cart already has dates. order is only for one date");
+                openRentBoardsActivity(Activity_RentDates.this, boardType, pickupDateInCart, returnDateInCart, boardsForRentJson);
+                return;
+            }
+        }
+
         // now create instance of the material date picker
         // builder make sure to add the "dateRangePicker"
         // which is material date range picker which is the
@@ -95,16 +103,6 @@ public class Activity_RentDates extends Activity_Base {
             @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
                 Long startDate = selection.first;
                 Long endDate = selection.second;
-
-//                if (startDate == pickupDateInCart && endDate == returnDateInCart &&
-//                        pickupDateInCart != 0 && returnDateInCart != 0) {
-//
-//                }
-
-                String dateFormat1 = DateFormat.format("dd.MM.yy", startDate).toString();
-                String dateFormat2 = DateFormat.format("dd.MM.yy", endDate).toString();
-                Log.d("rrr", dateFormat1);
-                Log.d("rrr", dateFormat2);
 
                 openRentBoardsActivity(Activity_RentDates.this, boardType, startDate, endDate, boardsForRentJson);
             }

@@ -58,8 +58,8 @@ public class Activity_Base extends AppCompatActivity {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (id == R.id.cart) {
-            if (fireBaseManager.isShoppingCartReturned) {
-                openShoppingCartActivity(this, fireBaseManager.shoppingCart);
+            if (fireBaseManager.isShoppingCartReturned()) {
+                openShoppingCartActivity(this, fireBaseManager.getShoppingCart());
             }
             if (firebaseUser == null) {
                 openLoginActivity(this);

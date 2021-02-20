@@ -35,7 +35,6 @@ public class Activity_ShoppingCart extends Activity_Base {
 
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
 
-
     private RecyclerView shoppingCart_LST_records;
     private TextView shoppingCart_LBL_totalPrice;
     private MaterialButton shoppingCart_BTN_checkOut;
@@ -70,6 +69,8 @@ public class Activity_ShoppingCart extends Activity_Base {
             public void onCancelItemClick(int position) {
                 if (boardsInCart.size() == 0) {
                     shoppingCart_BTN_checkOut.setEnabled(false);
+                    shoppingCart.setPickupDate(0);
+                    shoppingCart.setReturnDate(0);
                 }
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {

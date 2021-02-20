@@ -242,9 +242,8 @@ public class Activity_MainMenu extends Activity_Base {
             fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
                 @Override
                 public void retrieveShoppingCart(ShoppingCart sc) {
-                    fireBaseManager.shoppingCart = sc;
-             //       shoppingCart = sc;
-                    fireBaseManager.isShoppingCartReturned = true;
+                    fireBaseManager.setShoppingCart(sc);
+                    fireBaseManager.setShoppingCartReturned(true);
                 }
             });
         }
