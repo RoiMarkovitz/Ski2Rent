@@ -22,6 +22,8 @@ import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Base extends AppCompatActivity {
 
+    protected Menu mymMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("baseLifeCycle", "onCreate: Activity_Base");
@@ -34,6 +36,7 @@ public class Activity_Base extends AppCompatActivity {
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mymMenu = menu;
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         // R.menu.my_menu is a reference to an xml file named my_menu.xml which should be inside your res/menu directory.
@@ -46,6 +49,12 @@ public class Activity_Base extends AppCompatActivity {
         }
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateOptionsMenu();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     // handle button activities

@@ -206,6 +206,9 @@ public class Activity_MainMenu extends Activity_Base {
     @Override
     protected void onStart() {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
+
+        super.onPrepareOptionsMenu(mymMenu);
+
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
