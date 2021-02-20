@@ -37,6 +37,7 @@ public class Activity_Base extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
    //     initShoppingCart();
+        // not sure if this should be here, not all dervied classes need the cart
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
             fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
@@ -67,7 +68,6 @@ public class Activity_Base extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -90,6 +90,11 @@ public class Activity_Base extends AppCompatActivity {
                 openLoginActivity(this);
             } else {
                 FirebaseAuth.getInstance().signOut();
+                // TODO fix here, if logout not in main menu the icon wont be refreshed
+                if (!(this instanceof Activity_MainMenu)) {
+                    finish();
+                }
+             // activity.finish();
             }
         }
 

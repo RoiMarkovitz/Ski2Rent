@@ -49,12 +49,11 @@ public class Activity_MainMenu extends Activity_Base {
     private boolean isOrdersFinished = false;
     private boolean isLatestOrderIdReturned = false;
 
- //   private ArrayList<PriceRecord> priceTable;
     private ArrayList<BoardForRent> snowboardsForRent;
     private ArrayList<BoardForRent> skisForRent;
     private ArrayList<Order> orders;
 
- //   private BoardForRent board;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

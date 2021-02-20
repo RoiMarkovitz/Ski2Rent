@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:background="@color/silver"
+
     android:orientation="horizontal">
 
     <TextView
@@ -42,7 +43,7 @@
     <ImageView
         android:id="@+id/shoppingCart_IMG_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:layout_weight="90.0"
         android:clickable="true"
         android:src="@drawable/ic_cancel"/>

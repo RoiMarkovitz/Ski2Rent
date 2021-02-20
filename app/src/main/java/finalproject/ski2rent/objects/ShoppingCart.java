@@ -50,7 +50,8 @@ public class ShoppingCart {
     // TODO probably not needed because of firebase
     public void addToCart(RentedBoard boardToCart) {
         for (int i = 0; i < boardsInCart.size(); i++) {
-            if (boardsInCart.get(i).isSameKey(boardToCart.getKey())) {
+            if (boardsInCart.get(i).isSameKey(boardToCart.getKey())
+                    && boardsInCart.get(i).getLength() == boardToCart.getLength()) {
                 boardsInCart.get(i).setQuantity(boardsInCart.get(i).getQuantity() + 1);
                 return;
             }

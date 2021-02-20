@@ -97,7 +97,7 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
                         mData.remove(getAdapterPosition());
                         notifyItemRemoved(getAdapterPosition());
                         notifyItemRangeChanged(getAdapterPosition(),mData.size());
-                        Toast.makeText(context, "in cancel line " , Toast.LENGTH_SHORT).show();
+
                         mClickListener.onCancelItemClick(position);
                     }
                 }

@@ -30,7 +30,6 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
 import finalproject.ski2rent.utils.FireBaseManager;
 
-// TODO changing extends from Activity_Base to AppCompatActivity
 public class Activity_Login extends Activity_Base {
 
     private final int RC_SIGN_IN = 1234;
@@ -47,15 +46,6 @@ public class Activity_Login extends Activity_Base {
         setContentView(R.layout.activity__login);
 
         context = this;
-
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//
-//        if (user != null) {
-//            openApp();
-//        } else {
-//            startLoginMethod();
-//        }
 
         startLoginMethod();
 

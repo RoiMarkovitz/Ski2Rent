@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -36,6 +37,7 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
     private int days;
     private int daysBeforePickup;
     private double discountPercentage;
+    private int selectedLen;
 
     // data is passed into the constructor
     public Adapter_RentBoards(Context context, ArrayList<BoardForRent> data, int days, int daysBeforePickup) {
@@ -59,15 +61,26 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.d("pttt", "Binding " + position);
+     //   Log.d("pttt", "Binding " + position);
         BoardForRent board = mData.get(position);
         holder.boards_LBL_name.setText(board.getName());
         holder.boards_LBL_brand.setText(board.getBrand());
         holder.boards_LBL_camberProfile.setText(board.getCamberProfile().name());
         holder.boards_LBL_discount.setText((discountPercentage)+"% discount");
+
         ArrayList<Integer> lengths = board.getLengths();
         ArrayAdapter<Integer> length_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, lengths);
         holder.boards_SPN_lengths.setAdapter(length_adapter);
+
+
+        holder.boards_SPN_lengths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Object item = parent.getItemAtPosition(pos);
+                selectedLen = (int)item;
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
      //   String len = holder.boards_SPN_lengths.getSelectedItem().toString();
      //   Toast.makeText(context, "len " + len, Toast.LENGTH_SHORT).show();
@@ -146,6 +159,7 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) {
+
                         BoardForRent board = getItem(getAdapterPosition());
                         RentedBoard boardToCart = new RentedBoard();
                         boardToCart.setKey(board.getKey());
@@ -157,7 +171,7 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
                         boardToCart.setImagePath(board.getImagePath());
                         boardToCart.setPrice(board.getPrice());
 
-//                        boardToCart.setLength()
+                        boardToCart.setLength(selectedLen);
                         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                       //  fireBaseManager.updateShoppingCartToServer();
 
