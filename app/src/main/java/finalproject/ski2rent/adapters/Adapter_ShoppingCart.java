@@ -37,7 +37,7 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(Adapter_ShoppingCart.MyViewHolder holder, int position) {
-        Log.d("pttt", "Binding " + position);
+     //   Log.d("pttt", "Binding " + position);
         RentedBoard board = mData.get(position);
         holder.shoppingCart_LBL_details.setText(board.description());
         holder.shoppingCart_LBL_quantity.setText(""+board.getQuantity());

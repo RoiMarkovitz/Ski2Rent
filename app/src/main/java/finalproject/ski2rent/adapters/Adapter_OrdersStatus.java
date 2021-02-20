@@ -41,7 +41,7 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(Adapter_OrdersStatus.MyViewHolder holder, int position) {
-        Log.d("pttt", "Binding " + position);
+     //   Log.d("pttt", "Binding " + position);
         Order order = mData.get(position);
         holder.order_LBL_details.setText(order.description());
         holder.order_LBL_price.setText("€ "+order.calculateTotalPrice());

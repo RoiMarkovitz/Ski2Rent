@@ -52,8 +52,6 @@ public class Activity_ShoppingCart extends Activity_Base {
         findViews();
 
         boardsInCart = shoppingCart.getBoardsInCart();
-    //    boardsInCart = MockShoppingCart.generateSnowboards();
-    //    shoppingCart.setBoardsInCart(boardsInCart);
 
         if (boardsInCart.size() == 0) {
             shoppingCart_BTN_checkOut.setEnabled(false);

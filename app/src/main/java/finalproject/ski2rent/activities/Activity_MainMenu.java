@@ -52,6 +52,7 @@ public class Activity_MainMenu extends Activity_Base {
     private ArrayList<BoardForRent> snowboardsForRent;
     private ArrayList<BoardForRent> skisForRent;
     private ArrayList<Order> orders;
+ //   private ShoppingCart shoppingCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +70,10 @@ public class Activity_MainMenu extends Activity_Base {
         // initViews()
 
 
-
         fireBaseManager.readAllPricesFromServer(new CallBack_AllPriceData() {
             @Override
             public void retrieveAllPriceRecord(ArrayList<PriceRecord> pTable) {
                 Prices.getInstance().setPriceTable(pTable);
-     //           priceTable = pTable;
                 isPricesFinished = true;
             }
         });
@@ -125,7 +124,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_skis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSkisForRentFinished && isPricesFinished) {
+                if (isSkisForRentFinished && isPricesFinished && isLatestOrderIdReturned) {
                     openRentDatesActivity(Activity_MainMenu.this, "Ski");
                 }
             }
@@ -134,7 +133,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_snowboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSnowboardsForRentFinished && isPricesFinished) {
+                if (isSnowboardsForRentFinished && isPricesFinished && isLatestOrderIdReturned) {
                     openRentDatesActivity(Activity_MainMenu.this, "Snowboard");
                 }
             }
@@ -145,6 +144,8 @@ public class Activity_MainMenu extends Activity_Base {
             public void onClick(View v) {
                 if (isOrdersFinished && fireBaseManager.isCurrentUserLoggedIn()) {
                     openOrdersStatusActivity(Activity_MainMenu.this);
+                } else {
+                    openLoginActivity(Activity_MainMenu.this);
                 }
             }
         });
@@ -176,11 +177,7 @@ public class Activity_MainMenu extends Activity_Base {
     }
 
     private void openPricesActivity(Activity activity) {
-//        Prices prices = Prices.getInstance();
-//        prices.setPriceTable(priceTable);
- //       String pTableJson = new Gson().toJson(Prices.getInstance());
         Intent myIntent = new Intent(activity, Activity_Prices.class);
-   //     myIntent.putExtra(Activity_Prices.EXTRA_KEY_PRICE, pTableJson);
         startActivity(myIntent);
     }
 
@@ -239,6 +236,18 @@ public class Activity_MainMenu extends Activity_Base {
                 isLatestOrderIdReturned = true;
             }
         });
+
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
+                @Override
+                public void retrieveShoppingCart(ShoppingCart sc) {
+                    fireBaseManager.shoppingCart = sc;
+             //       shoppingCart = sc;
+                    fireBaseManager.isShoppingCartReturned = true;
+                }
+            });
+        }
 
 
 

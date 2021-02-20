@@ -35,6 +35,9 @@ import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.ShoppingCart;
 
 public class FireBaseManager {
+    public boolean isShoppingCartReturned = false;
+    public ShoppingCart shoppingCart;
+
     private static FireBaseManager instance;
 
     public static FireBaseManager getInstance() {
@@ -141,9 +144,9 @@ public class FireBaseManager {
     public void updateShoppingCartToServer(ShoppingCart sc, CallBack_UpdateShoppingCartData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("shopping_carts");
-
         myRef.child(sc.getCustomerKey()).setValue(sc);
 
+        shoppingCart = sc;
         callback.updated();
     }
 

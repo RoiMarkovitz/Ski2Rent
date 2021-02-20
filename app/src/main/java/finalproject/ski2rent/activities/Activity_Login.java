@@ -33,7 +33,6 @@ import finalproject.ski2rent.utils.FireBaseManager;
 public class Activity_Login extends Activity_Base {
 
     private final int RC_SIGN_IN = 1234;
-    private Context context;
 
     // https://firebase.google.com/docs/auth/android/firebaseui?authuser=0
     // https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md
@@ -44,8 +43,6 @@ public class Activity_Login extends Activity_Base {
         Log.d("loginLifeCycle", "onCreate: Activity_Login");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__login);
-
-        context = this;
 
         startLoginMethod();
 
@@ -67,8 +64,9 @@ public class Activity_Login extends Activity_Base {
 
     private void openApp() {
         Log.d("pttt", "openApp");
-
-        Intent myIntent = new Intent(context, Activity_MainMenu.class);
+        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+        fireBaseManager.isShoppingCartReturned = false;
+        Intent myIntent = new Intent(this, Activity_MainMenu.class);
         startActivity(myIntent);
         finish();
     }

@@ -21,9 +21,6 @@ import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Base extends AppCompatActivity {
-    protected boolean isShoppingCartReturned = false;
-    protected ShoppingCart shoppingCart;
-  //  private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +28,6 @@ public class Activity_Base extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__base);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-   //     initShoppingCart();
-        // not sure if this should be here, not all dervied classes need the cart
-        if (firebaseUser != null) {
-            String uid = firebaseUser.getUid();
-            fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
-                @Override
-                public void retrieveShoppingCart(ShoppingCart sc) {
-                    shoppingCart = sc;
-                    isShoppingCartReturned = true;
-                }
-            });
-        }
 
     }
 
@@ -73,12 +53,13 @@ public class Activity_Base extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         invalidateOptionsMenu();
         int id = item.getItemId();
+        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (id == R.id.cart) {
-            if (isShoppingCartReturned) {
-                openShoppingCartActivity(this);
+            if (fireBaseManager.isShoppingCartReturned) {
+                openShoppingCartActivity(this, fireBaseManager.shoppingCart);
             }
             if (firebaseUser == null) {
                 openLoginActivity(this);
@@ -94,7 +75,6 @@ public class Activity_Base extends AppCompatActivity {
                 if (!(this instanceof Activity_MainMenu)) {
                     finish();
                 }
-             // activity.finish();
             }
         }
 
@@ -102,16 +82,15 @@ public class Activity_Base extends AppCompatActivity {
     }
 
 
-    private void openLoginActivity(Activity activity) {
+    protected void openLoginActivity(Activity activity) {
         Intent myIntent = new Intent(this, Activity_Login.class);
         startActivity(myIntent);
         if (!(this instanceof Activity_MainMenu)) {
             activity.finish();
-           // finish();
         }
     }
 
-    private void openShoppingCartActivity(Activity activity) {
+    protected void openShoppingCartActivity(Activity activity, ShoppingCart shoppingCart) {
 
         String shoppingCartJson;
         shoppingCartJson = new Gson().toJson(shoppingCart);
@@ -121,25 +100,8 @@ public class Activity_Base extends AppCompatActivity {
         startActivity(myIntent);
         if (!(this instanceof Activity_MainMenu)) {
             activity.finish();
-            // finish();
         }
 
-    }
-
-    protected void initShoppingCart() {
-        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser != null) {
-            String uid = firebaseUser.getUid();
-            fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
-                @Override
-                public void retrieveShoppingCart(ShoppingCart sc) {
-                    shoppingCart = sc;
-                    isShoppingCartReturned = true;
-                }
-            });
-        }
     }
 
     @Override
