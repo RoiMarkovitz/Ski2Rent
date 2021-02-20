@@ -206,7 +206,7 @@ public class Activity_MainMenu extends Activity_Base {
     @Override
     protected void onStart() {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
-
+     
         super.onPrepareOptionsMenu(mymMenu);
 
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
@@ -232,13 +232,13 @@ public class Activity_MainMenu extends Activity_Base {
 
      //   FireBaseManager fireBaseManager = FireBaseManager.getInstance();
        // check if latest id feild does not exist in data base
-//        fireBaseManager.readOrderLatestIdNumberFromServer(new CallBack_GetLatestOrderIdNumber() {
-//            @Override
-//            public void retrieveLatestOrderIdNumber(int latestOrderId) {
-//                Order.idGenerator = latestOrderId;
-//                isLatestOrderIdReturned = true;
-//            }
-//        });
+        fireBaseManager.readOrderLatestIdNumberFromServer(new CallBack_GetLatestOrderIdNumber() {
+            @Override
+            public void retrieveLatestOrderIdNumber(int latestOrderId) {
+                Order.idGenerator = latestOrderId;
+                isLatestOrderIdReturned = true;
+            }
+        });
 
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
@@ -250,9 +250,7 @@ public class Activity_MainMenu extends Activity_Base {
                 }
             });
         }
-
-
-
+        
         super.onStart();
     }
 

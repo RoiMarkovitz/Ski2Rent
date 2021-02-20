@@ -60,7 +60,7 @@ public class Activity_Base extends AppCompatActivity {
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        invalidateOptionsMenu();
+        invalidateOptionsMenu(); // maybe this is not needed
         int id = item.getItemId();
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
