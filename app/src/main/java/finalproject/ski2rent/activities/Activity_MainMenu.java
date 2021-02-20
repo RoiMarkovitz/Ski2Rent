@@ -53,8 +53,6 @@ public class Activity_MainMenu extends Activity_Base {
     private ArrayList<BoardForRent> skisForRent;
     private ArrayList<Order> orders;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("mainMenuLifeCycle", "onCreate: Activity_MainMenu");
@@ -66,8 +64,9 @@ public class Activity_MainMenu extends Activity_Base {
 //        fireBaseManager.loadSnowboards();
 //        fireBaseManager.loadSkis();
 
-    //    FirebaseAuth.getInstance().signOut();
     //    validateUser();
+
+        // initViews()
 
 
 

@@ -274,9 +274,9 @@ public class FireBaseManager {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         if (type == Board.eType.Snowboard) {
-            myRef = database.getReference("snowboards_for_rent");
+            myRef = database.getReference("boards_for_rent").child("snowboards");
         } else {
-            myRef = database.getReference("skis_for_rent");
+            myRef = database.getReference("boards_for_rent").child("skis");
         }
         ArrayList<BoardForRent> boards = new ArrayList<>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -300,16 +300,15 @@ public class FireBaseManager {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         if (type == Board.eType.Snowboard) {
-             myRef = database.getReference("snowboards_for_rent");
+            myRef = database.getReference("boards_for_rent").child("snowboards");
         } else {
-             myRef = database.getReference("skis_for_rent");
+            myRef = database.getReference("boards_for_rent").child("skis");
         }
 
         myRef.child(boardKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 BoardForRent b = dataSnapshot.getValue(BoardForRent.class);
-               Log.d("pttt", "Board value is: " + b.description());
                 callback.retrieveBoardForRent(b);
             }
 
@@ -324,9 +323,9 @@ public class FireBaseManager {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         if (type == Board.eType.Snowboard) {
-            myRef = database.getReference("snowboards_for_rent");
+            myRef = database.getReference("boards_for_rent").child("snowboards");
         } else {
-            myRef = database.getReference("skis_for_rent");
+            myRef = database.getReference("boards_for_rent").child("skis");
         }
         myRef.child(board.getKey()).setValue(board);
     }

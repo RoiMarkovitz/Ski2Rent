@@ -82,9 +82,6 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
             }
         });
 
-     //   String len = holder.boards_SPN_lengths.getSelectedItem().toString();
-     //   Toast.makeText(context, "len " + len, Toast.LENGTH_SHORT).show();
-
         double price = prices.calculatePrice(days, board, daysBeforePickup);
         holder.boards_LBL_price.setText("€ " + price);
         board.setPrice(price);

@@ -73,46 +73,56 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shoppingCart_LBL_list"
+        android:layout_below="@id/shoppingCart_LBL_header"
+        android:background="@color/grey"
+        android:orientation="vertical">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingCart_LST_records"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/shoppingCart_LBL_header"
+        android:layout_height="0dp"
+        android:layout_weight=".95"
         tools:listitem="@layout/list_shopping_cart" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/shoppingCart_LST_records"
-        android:layout_alignStart="@id/shoppingCart_LST_records"
-        android:background="@color/silver">
-
-        <TextView
-            android:id="@+id/shoppingCart_LBL_totalPrice"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight=".05"
+            android:layout_below="@+id/shoppingCart_LST_records"
+            android:layout_alignStart="@id/shoppingCart_LST_records"
+            android:background="@color/silver">
 
-            android:text="Total price: "
+            <TextView
+                android:id="@+id/shoppingCart_LBL_totalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="6dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                android:text="Total price: "
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="6dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/shoppingCart_BTN_checkOut"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Check Out"
-            android:enabled="true"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="6dp"
-            android:textSize="16sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shoppingCart_BTN_checkOut"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Check Out"
+                android:enabled="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp" />
 
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
