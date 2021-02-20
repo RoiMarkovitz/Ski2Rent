@@ -38,7 +38,6 @@ public class Activity_RentBoards extends Activity_Base {
     private ShoppingCart shoppingCart = new ShoppingCart();
     private boolean isShoppingCartReturned = false;
     private boolean isShoppingCartUpdated = false;
-    private Gson gson;
 
     private RecyclerView rentBoards_LST_boards;
     private TextView rentBoards_LBL_title;
@@ -50,18 +49,19 @@ public class Activity_RentBoards extends Activity_Base {
         setContentView(R.layout.activity__rent_boards);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = firebaseUser.getUid();
-        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-        fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
-            @Override
-            public void retrieveShoppingCart(ShoppingCart sc) {
-                shoppingCart = sc;
-                isShoppingCartReturned = true;
-            }
-        });
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+            fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
+                @Override
+                public void retrieveShoppingCart(ShoppingCart sc) {
+                    shoppingCart = sc;
+                    isShoppingCartReturned = true;
+                }
+            });
+        }
 
         ArrayList<BoardForRent> boardsForRent = new ArrayList<>();
-        gson = new Gson();
 
         findViews();
 
@@ -120,10 +120,8 @@ public class Activity_RentBoards extends Activity_Base {
       //  ArrayList<BoardForRent> boards = new ArrayList<>();
         if (boardType.equals("Snowboard")) {
             rentBoards_LBL_title.setText("Snowboards Rent List");
-        //    boards = MockSnowboards.generateSnowboards();
         } else {
             rentBoards_LBL_title.setText("Skis Rent List");
-        //    boards = MockSkis.generateSkis();
         }
      //   return boards;
     }

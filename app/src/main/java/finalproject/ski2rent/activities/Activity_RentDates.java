@@ -35,9 +35,6 @@ public class Activity_RentDates extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_dates);
 
-
-
-
         mPickDateButton = findViewById(R.id.pick_date_button);
         mShowSelectedDateText = findViewById(R.id.show_selected_date);
 

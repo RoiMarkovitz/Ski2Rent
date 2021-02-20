@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_ShoppingCart;
@@ -29,10 +28,7 @@ import finalproject.ski2rent.utils.MySignals;
 public class Activity_ShoppingCart extends Activity_Base {
     public static final String EXTRA_KEY_SHOPPING_CART = "EXTRA_KEY_SHOPPING_CART";
 
-    private boolean isShoppingCartUpdated = false;
-
     private ShoppingCart shoppingCart = new ShoppingCart();
-
     private ArrayList<RentedBoard> boardsInCart = new ArrayList<>();
 
     private RecyclerView shoppingCart_LST_records;
@@ -75,9 +71,7 @@ public class Activity_ShoppingCart extends Activity_Base {
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
                     @Override
-                    public void updated() {
-                        isShoppingCartUpdated = true;
-                    }
+                    public void updated() {}
                 });
                 setTextTotalPrice();
             }

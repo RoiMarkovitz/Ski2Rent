@@ -71,6 +71,7 @@ public class Activity_Base extends AppCompatActivity {
                 openLoginActivity(this);
             } else {
                 FirebaseAuth.getInstance().signOut();
+                FireBaseManager.getInstance().setShoppingCartReturned(false);
                 // TODO fix here, if logout not in main menu the icon wont be refreshed
                 if (!(this instanceof Activity_MainMenu)) {
                     finish();

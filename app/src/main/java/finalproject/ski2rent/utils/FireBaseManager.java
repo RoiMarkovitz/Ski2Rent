@@ -66,11 +66,12 @@ public class FireBaseManager {
     public String getUidCurrentUser() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
-
-       // if ()
-
-        return uid;
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            return uid;
+        } else {
+            return null;
+        }
 
     }
 

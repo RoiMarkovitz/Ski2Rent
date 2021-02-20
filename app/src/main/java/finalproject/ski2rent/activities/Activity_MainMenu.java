@@ -124,7 +124,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_skis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSkisForRentFinished && isPricesFinished && isLatestOrderIdReturned) {
+                if (isSkisForRentFinished && isPricesFinished) {
                     openRentDatesActivity(Activity_MainMenu.this, "Ski");
                 }
             }
@@ -133,7 +133,7 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_snowboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSnowboardsForRentFinished && isPricesFinished && isLatestOrderIdReturned) {
+                if (isSnowboardsForRentFinished && isPricesFinished) {
                     openRentDatesActivity(Activity_MainMenu.this, "Snowboard");
                 }
             }
@@ -229,13 +229,13 @@ public class Activity_MainMenu extends Activity_Base {
 
      //   FireBaseManager fireBaseManager = FireBaseManager.getInstance();
        // check if latest id feild does not exist in data base
-        fireBaseManager.readOrderLatestIdNumberFromServer(new CallBack_GetLatestOrderIdNumber() {
-            @Override
-            public void retrieveLatestOrderIdNumber(int latestOrderId) {
-                Order.idGenerator = latestOrderId;
-                isLatestOrderIdReturned = true;
-            }
-        });
+//        fireBaseManager.readOrderLatestIdNumberFromServer(new CallBack_GetLatestOrderIdNumber() {
+//            @Override
+//            public void retrieveLatestOrderIdNumber(int latestOrderId) {
+//                Order.idGenerator = latestOrderId;
+//                isLatestOrderIdReturned = true;
+//            }
+//        });
 
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();

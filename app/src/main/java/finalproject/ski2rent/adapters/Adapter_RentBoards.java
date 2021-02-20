@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -67,6 +69,10 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
         holder.boards_LBL_brand.setText(board.getBrand());
         holder.boards_LBL_camberProfile.setText(board.getCamberProfile().name());
         holder.boards_LBL_discount.setText((discountPercentage)+"% discount");
+
+        if (FireBaseManager.getInstance().getUidCurrentUser() == null) {
+            holder.boards_BTN_addToCart.setEnabled(false);
+        }
 
         ArrayList<Integer> lengths = board.getLengths();
         ArrayAdapter<Integer> length_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, lengths);
