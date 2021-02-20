@@ -15,15 +15,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import finalproject.ski2rent.R;
-import finalproject.ski2rent.callbacks.CallBack_GetAllOrdersData;
 import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
-import finalproject.ski2rent.objects.Order;
 import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
-import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_Base extends AppCompatActivity {
     protected boolean isShoppingCartReturned = false;
@@ -72,9 +67,11 @@ public class Activity_Base extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        invalidateOptionsMenu();
         int id = item.getItemId();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();

@@ -35,9 +35,6 @@ import finalproject.ski2rent.objects.PriceRecord;
 import finalproject.ski2rent.objects.ShoppingCart;
 
 public class FireBaseManager {
-    // can change to ArrayList
-    private HashMap<String, PriceRecord> pricesMap = new HashMap<>();
-
     private static FireBaseManager instance;
 
     public static FireBaseManager getInstance() {
@@ -103,7 +100,6 @@ public class FireBaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Customer c = dataSnapshot.getValue(Customer.class);
-                Log.d("pttt", "Value is: " + c.getName());
                 callback.retrieveCustomer(c);
             }
 
@@ -131,7 +127,6 @@ public class FireBaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ShoppingCart sc = dataSnapshot.getValue(ShoppingCart.class);
-                Log.d("pttt", "Value is: " + sc);
                 callback.retrieveShoppingCart(sc);
             }
 
@@ -152,9 +147,6 @@ public class FireBaseManager {
         callback.updated();
     }
 
-
-    // in new function read / update number_of_orders data from / to server
-    //    DatabaseReference myRef = database.getReference("orders").child("number_of_orders");
     public void readAllOrdersFromServer(CallBack_GetAllOrdersData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("orders").child("customers_id");
@@ -165,7 +157,6 @@ public class FireBaseManager {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     orders.add(child.getValue(Order.class));
                 }
-                //          Log.d("pttt", "Value isarray: " + priceTable.get(0).getDays() + " " +priceTable.get(0).getBronzePrice());
                 callback.retrieveAllOrders(orders);
             }
 
@@ -177,7 +168,6 @@ public class FireBaseManager {
 
     }
 
-
     public void readOrderDataFromServer(String customerKey, CallBack_GetOrderData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("orders").child("customers_id");
@@ -186,7 +176,6 @@ public class FireBaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Order o = dataSnapshot.getValue(Order.class);
-                Log.d("pttt", "Value is: " + o);
                 callback.retrieveOrder(o);
             }
 
@@ -222,8 +211,7 @@ public class FireBaseManager {
         ArrayList<Order> orders = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("orders").child("customers_id").child(o.getCustomerKey());
-      //  myRef.child(o.getCustomerKey());
-      //  myRef.push().setValue(o);
+
         myRef.child(o.getId()+"").setValue(o);
 
         // update latest order id to server
@@ -239,7 +227,6 @@ public class FireBaseManager {
             }
         });
 
-     //   callback.updated(); // remove this
     }
 
     public void readAllPricesFromServer(CallBack_AllPriceData callback) {
@@ -252,7 +239,6 @@ public class FireBaseManager {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     priceTable.add(child.getValue(PriceRecord.class));
                 }
-      //          Log.d("pttt", "Value isarray: " + priceTable.get(0).getDays() + " " +priceTable.get(0).getBronzePrice());
                 callback.retrieveAllPriceRecord(priceTable);
             }
 
@@ -273,7 +259,6 @@ public class FireBaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 PriceRecord p = dataSnapshot.getValue(PriceRecord.class);
-       //         Log.d("pttt", "Value is: " + p.getDays() + " " +p.getBronzePrice());
                 callback.retrievePriceRecord(p);
             }
 
@@ -300,7 +285,6 @@ public class FireBaseManager {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     boards.add(child.getValue(BoardForRent.class));
                 }
-       //         Log.d("pttt", "Board in array: " + boards.get(0).description());
                 callback.retrieveAllBoardsForRent(boards);
             }
 
@@ -334,7 +318,6 @@ public class FireBaseManager {
                 Log.d("pttt", "Failed to read value.", error.toException());
             }
         });
-
     }
 
     public void uploadBoardForRentToServer(BoardForRent board, Board.eType type) {
@@ -355,6 +338,7 @@ public class FireBaseManager {
     }
 
     public void loadPriceRecords() {
+        HashMap<String, PriceRecord> pricesMap = new HashMap<>();
         pricesMap.put("1", new PriceRecord()
                 .setKey("1")
                 .setDays(1)
@@ -404,7 +388,6 @@ public class FireBaseManager {
                 .setSilverPrice(12.00)
                 .setGoldPrice(16.00));
 
-        // Using for-each loop
         for (Map.Entry mapElement : pricesMap.entrySet()) {
         //    String key = (String) mapElement.getKey();
             PriceRecord value = ((PriceRecord) mapElement.getValue());

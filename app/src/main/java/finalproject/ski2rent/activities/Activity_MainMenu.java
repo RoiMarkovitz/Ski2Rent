@@ -66,20 +66,11 @@ public class Activity_MainMenu extends Activity_Base {
 //        fireBaseManager.loadPriceRecords();
 //        fireBaseManager.loadSnowboards();
 //        fireBaseManager.loadSkis();
-        //     fireBaseManager.setCallBack_PriceData(callBack_priceData);
 
     //    FirebaseAuth.getInstance().signOut();
     //    validateUser();
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-    //    String uid = firebaseUser.getUid();
-        if (fireBaseManager.isCurrentUserLoggedIn()) {
-            Log.d("pttt", "Uid = " + firebaseUser.getUid());
-            Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
-            //   Log.d("pttt", "Email = " + firebaseUser.getEmail());
-            Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
-        }
+
 
         fireBaseManager.readAllPricesFromServer(new CallBack_AllPriceData() {
             @Override
@@ -174,14 +165,6 @@ public class Activity_MainMenu extends Activity_Base {
             return;
         }
 
-        Log.d("pttt", "Uid = " + firebaseUser.getUid());
-        Log.d("pttt", "DisplayName = " + firebaseUser.getDisplayName());
-     //   Log.d("pttt", "Email = " + firebaseUser.getEmail());
-        Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
-    //    Log.d("pttt", "PhotoUrl = " + firebaseUser.getPhotoUrl());
-
-//        firebaseAuth.signOut();
-//        FirebaseAuth.getInstance().signOut();
 
     }
 
@@ -229,6 +212,16 @@ public class Activity_MainMenu extends Activity_Base {
     protected void onStart() {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (fireBaseManager.isCurrentUserLoggedIn()) {
+            Log.d("pttt", "User logged in!");
+            Log.d("pttt", "Uid = " + firebaseUser.getUid());
+            Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
+        } else {
+            Log.d("pttt", "User not logged in!");
+        }
+
         if (fireBaseManager.isCurrentUserLoggedIn()) {
             fireBaseManager.readAllOrdersFromServer(new CallBack_GetAllOrdersData() {
                 @Override
@@ -248,6 +241,7 @@ public class Activity_MainMenu extends Activity_Base {
                 isLatestOrderIdReturned = true;
             }
         });
+
 
 
         super.onStart();
