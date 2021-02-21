@@ -1,6 +1,7 @@
 package finalproject.ski2rent.adapters;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +37,8 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
     private int daysBeforePickup;
     private double discountPercentage;
     private int selectedLen;
+    private boolean isShoppingCartUpdated = true;
+    private long mLastClickTime = 0;
 
     // data is passed into the constructor
     public Adapter_RentBoards(Context context, ArrayList<BoardForRent> data, int days, int daysBeforePickup) {
@@ -123,6 +125,10 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
         this.mClickListener = itemClickListener;
     }
 
+    public void shoppingCartIsUpdated() {
+        isShoppingCartUpdated = true;
+    }
+
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
@@ -156,7 +162,13 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
             boards_BTN_addToCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mClickListener != null) {
+                    if (mClickListener != null && isShoppingCartUpdated) {
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                            return;
+                        }
+                        mLastClickTime = SystemClock.elapsedRealtime();
+
+                        isShoppingCartUpdated = false;
 
                         BoardForRent board = getItem(getAdapterPosition());
                         RentedBoard boardToCart = new RentedBoard();
@@ -168,7 +180,6 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
                         boardToCart.setCamberProfile(board.getCamberProfile());
                         boardToCart.setImagePath(board.getImagePath());
                         boardToCart.setPrice(board.getPrice());
-
                         boardToCart.setLength(selectedLen);
 
                         mClickListener.onAddToCartClick(getAdapterPosition(), boardToCart);

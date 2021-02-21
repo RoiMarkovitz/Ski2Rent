@@ -210,8 +210,7 @@ public class FireBaseManager {
 
     }
 
-    public void updateOrderToServer(String customerKey, Order o, CallBack_UpdateOrderData callback) {
-        ArrayList<Order> orders = new ArrayList<>();
+    public void updateNewOrderToServer(Order o, CallBack_UpdateOrderData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("orders").child("customers_id").child(o.getCustomerKey());
 
@@ -230,6 +229,13 @@ public class FireBaseManager {
             }
         });
 
+    }
+
+    public void updateOrderStatusToServer(Order o) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("orders").child("customers_id").child(o.getCustomerKey());
+
+        myRef.child(o.getId()+"").setValue(o);
     }
 
     public void readAllPricesFromServer(CallBack_AllPriceData callback) {

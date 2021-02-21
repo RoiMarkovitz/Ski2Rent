@@ -59,7 +59,8 @@ public class Activity_ShoppingCart extends Activity_Base {
 
         adapter_boards.setClickListener(new Adapter_ShoppingCart.ItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {}
+            public void onItemClick(View view, int position) {
+            }
 
             @Override
             public void onCancelItemClick(int position) {
@@ -68,14 +69,15 @@ public class Activity_ShoppingCart extends Activity_Base {
                     shoppingCart.setPickupDate(0);
                     shoppingCart.setReturnDate(0);
                 }
-                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
                     @Override
                     public void updated() {
-                        // added updated boolean and update the adapter
+                        adapter_boards.shoppingCartIsUpdated();
+                        setTextTotalPrice();
                     }
                 });
-                setTextTotalPrice();
+
             }
         });
 
@@ -84,24 +86,15 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart_BTN_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // probably needed here, only allow checkout when the server finished loading the cart and reutrning it
-                // or not, because i do the addition locally, and what is sent is what is most updated anyways
-          //      if (FireBaseManager.getInstance().isShoppingCartReturned()) {
-                    FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                    String uid = firebaseUser.getUid();
-                    ArrayList<RentedBoard> boardsToOrder = adapter_boards.getRentedBoards();
-                    Order order = new Order(uid, boardsToOrder, shoppingCart.getPickupDate(), shoppingCart.getReturnDate());
-
-                    fireBaseManager.updateOrderToServer(uid, order, new CallBack_UpdateOrderData() {
-                        @Override
-                        public void updated() {
-                            MySignals.getInstance().toast("Thanks for buying!");
-                            finish();
-                            // return
-                        }
-                    });
-            //    }
+                ArrayList<RentedBoard> boardsToOrder = adapter_boards.getRentedBoards();
+                Order order = new Order(fireBaseManager.getUidCurrentUser(), boardsToOrder, shoppingCart.getPickupDate(), shoppingCart.getReturnDate());
+                fireBaseManager.updateNewOrderToServer(order, new CallBack_UpdateOrderData() {
+                    @Override
+                    public void updated() {
+                        MySignals.getInstance().toast("Thanks for buying!");
+                        finish();
+                    }
+                });
             }
         });
 
@@ -115,36 +108,6 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart_LST_records = findViewById(R.id.shoppingCart_LST_records);
         shoppingCart_LBL_totalPrice = findViewById(R.id.shoppingCart_LBL_totalPrice);
         shoppingCart_BTN_checkOut = findViewById(R.id.shoppingCart_BTN_checkOut);
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d("ShoppingCartLifeCycle", "onStart: Activity_ShoppingCart");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d("ShoppingCartLifeCycle", "onResume: Activity_ShoppingCart");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("ShoppingCartLifeCycle", "onPause: Activity_ShoppingCart");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d("ShoppingCartLifeCycle", "onStop: Activity_ShoppingCart");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("ShoppingCartLifeCycle", "onDestroy: Activity_ShoppingCart");
-        super.onDestroy();
     }
 
 

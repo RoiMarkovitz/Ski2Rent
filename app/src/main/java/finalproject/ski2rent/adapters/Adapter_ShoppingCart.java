@@ -1,6 +1,7 @@
 package finalproject.ski2rent.adapters;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
     private Context context;
     private LayoutInflater mInflater;
     private Adapter_ShoppingCart.ItemClickListener mClickListener;
+    private boolean isShoppingCartUpdated = true;
+    private long mLastClickTime = 0;
 
     // data is passed into the constructor
     public Adapter_ShoppingCart(Context context, ArrayList<RentedBoard> data) {
@@ -63,6 +66,11 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
         this.mClickListener = itemClickListener;
     }
 
+    public void shoppingCartIsUpdated() {
+        isShoppingCartUpdated = true;
+    }
+
+
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
@@ -71,8 +79,6 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
 
     // stores and recycles views as they are scrolled off screen
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         TextView shoppingCart_LBL_details;
         TextView shoppingCart_LBL_quantity;
         TextView shoppingCart_LBL_price;
@@ -89,7 +95,14 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
             shoppingCart_IMG_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mClickListener != null) {
+                    if (mClickListener != null && isShoppingCartUpdated) {
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                            return;
+                        }
+                        mLastClickTime = SystemClock.elapsedRealtime();
+
+                        isShoppingCartUpdated = false;
+
                         int position = getAdapterPosition();
                         mData.remove(getAdapterPosition());
                         notifyItemRemoved(getAdapterPosition());

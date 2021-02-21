@@ -18,7 +18,6 @@ import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_OrdersStatus;
 import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
 import finalproject.ski2rent.objects.Order;
-import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_OrdersStatus extends Activity_Base {
@@ -45,23 +44,12 @@ public class Activity_OrdersStatus extends Activity_Base {
 
         adapter_orders.setClickListener(new Adapter_OrdersStatus.ItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-            }
+            public void onItemClick(View view, int position) { }
+
 
             @Override
             public void onActionItemClick(int position, Order o) {
-                //      boardsInCart.remove(position);
-                Order order;
-                order = o;
-                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-                fireBaseManager.updateOrderToServer(fireBaseManager.getUidCurrentUser(),order, new CallBack_UpdateOrderData() {
-                    @Override
-                    public void updated() {
-
-                        MySignals.getInstance().toast("status changed");
-                    }
-                });
-
+                fireBaseManager.updateOrderStatusToServer(o);
             }
         });
 
@@ -73,34 +61,5 @@ public class Activity_OrdersStatus extends Activity_Base {
         order_LST_records = findViewById(R.id.order_LST_records);
     }
 
-    @Override
-    protected void onStart() {
-        Log.d("OrdersStatusLifeCycle", "onStart: Activity_OrdersStatus");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d("OrdersStatusLifeCycle", "onResume: Activity_OrdersStatus");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("OrdersStatusLifeCycle", "onPause: Activity_OrdersStatus");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d("OrdersStatusLifeCycle", "onStop: Activity_OrdersStatus");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("OrdersStatusLifeCycle", "onDestroy: Activity_OrdersStatus");
-        super.onDestroy();
-    }
 
 } // Activity_OrdersStatus

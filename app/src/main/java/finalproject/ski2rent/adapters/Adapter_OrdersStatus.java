@@ -1,6 +1,7 @@
 package finalproject.ski2rent.adapters;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
     private LayoutInflater mInflater;
     private Adapter_OrdersStatus.ItemClickListener mClickListener;
     private boolean isCancelClickable;
+    private long mLastClickTime = 0;
 
     // data is passed into the constructor
     public Adapter_OrdersStatus(Context context, ArrayList<Order> data) {
@@ -128,6 +130,11 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) {
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                            return;
+                        }
+                        mLastClickTime = SystemClock.elapsedRealtime();
+
                         Order order = getItem(getAdapterPosition());
 
                         if (isCancelClickable) {

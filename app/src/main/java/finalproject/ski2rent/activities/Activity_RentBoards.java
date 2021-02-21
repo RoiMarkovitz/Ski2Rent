@@ -8,8 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,12 +17,11 @@ import java.util.List;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_RentBoards;
-import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.callbacks.CallBack_UpdateShoppingCartData;
+import finalproject.ski2rent.objects.Board;
 import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.RentedBoard;
 import finalproject.ski2rent.objects.ShoppingCart;
-import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MyDateUtil;
 import finalproject.ski2rent.utils.MySignals;
 
@@ -34,11 +31,7 @@ public class Activity_RentBoards extends Activity_Base {
     public static final String EXTRA_KEY_END_DATE = "EXTRA_KEY_END_DATE";
     public static final String EXTRA_KEY_ALL_BOARDS = "EXTRA_KEY_ALL_BOARDS";
 
-
     private ShoppingCart shoppingCart = new ShoppingCart();
-    private boolean isShoppingCartReturned = false;
-    private boolean isShoppingCartUpdated = false;
-
     private RecyclerView rentBoards_LST_boards;
     private TextView rentBoards_LBL_title;
 
@@ -48,18 +41,7 @@ public class Activity_RentBoards extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_boards);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-            String uid = firebaseUser.getUid();
-            FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-            fireBaseManager.readShoppingCartDataFromServer(uid, new CallBack_GetShoppingCartData() {
-                @Override
-                public void retrieveShoppingCart(ShoppingCart sc) {
-                    shoppingCart = sc;
-                    isShoppingCartReturned = true;
-                }
-            });
-        }
+        shoppingCart = fireBaseManager.getShoppingCart();
 
         ArrayList<BoardForRent> boardsForRent = new ArrayList<>();
 
@@ -75,7 +57,6 @@ public class Activity_RentBoards extends Activity_Base {
 
         int rentDays = MyDateUtil.calculateDaysDifferenceWithLastDay(startRentDate, endRentDate);
         int daysBeforePickup = getDaysBeforePickup(startRentDate);
-
 
         setLayoutTitle(boardType);
 
@@ -98,13 +79,11 @@ public class Activity_RentBoards extends Activity_Base {
                     }
                 }
 
-                // TODO probably just need to add to firebase or NOT.
                 shoppingCart.addToCart(boardToCart);
-                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
                     @Override
                     public void updated() {
-                        isShoppingCartUpdated = true;
+                        adapter_rent_boards.shoppingCartIsUpdated();
                         MySignals.getInstance().toast("Item added to cart!");
                         MySignals.getInstance().vibrate();
                     }
@@ -112,18 +91,14 @@ public class Activity_RentBoards extends Activity_Base {
             }
         });
 
-
-
     } // onCreate
 
     private void setLayoutTitle(String boardType) {
-      //  ArrayList<BoardForRent> boards = new ArrayList<>();
-        if (boardType.equals("Snowboard")) {
+        if (boardType.equals(Board.eType.Snowboard)) {
             rentBoards_LBL_title.setText("Snowboards Rent List");
         } else {
             rentBoards_LBL_title.setText("Skis Rent List");
         }
-     //   return boards;
     }
 
     private int getDaysBeforePickup(long startRentDate) {
@@ -139,36 +114,6 @@ public class Activity_RentBoards extends Activity_Base {
     private void findViews() {
         rentBoards_LBL_title = findViewById(R.id.rentBoards_LBL_title);
         rentBoards_LST_boards = findViewById(R.id.rentBoards_LST_boards);
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d("RentBoardsLifeCycle", "onStart: Activity_RentBoards");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d("RentBoardsLifeCycle", "onResume: Activity_RentBoards");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("RentBoardsLifeCycle", "onPause: Activity_RentBoards");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d("RentBoardsLifeCycle", "onStop: Activity_RentBoards");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("RentBoardsLifeCycle", "onDestroy: Activity_RentBoards");
-        super.onDestroy();
     }
 
 } // Activity_RentBoards

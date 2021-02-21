@@ -173,13 +173,11 @@ public class Activity_MainMenu extends Activity_Base  {
     }
 
     private void openPricesActivity(Activity activity) {
-        resetFinished();
         Intent myIntent = new Intent(activity, Activity_Prices.class);
         startActivity(myIntent);
     }
 
     private void openRentDatesActivity(Activity activity, Board.eType type) {
-        resetFinished();
         String boardsForRentJson;
         if (type == Board.eType.Snowboard) {
             boardsForRentJson = new Gson().toJson(snowboardsForRent);
@@ -194,19 +192,11 @@ public class Activity_MainMenu extends Activity_Base  {
     }
 
     private void openOrdersStatusActivity(Activity activity) {
-        resetFinished();
         String ordersJson = new Gson().toJson(orders);
 
         Intent myIntent = new Intent(activity, Activity_OrdersStatus.class);
         myIntent.putExtra(Activity_OrdersStatus.EXTRA_KEY_ALL_ORDERS, ordersJson);
         startActivity(myIntent);
-    }
-
-    private void resetFinished() {
-        isOrdersFinished = false;
-        isLatestOrderIdReturned = false;
-   //     fireBaseManager.setShoppingCartReturned(false);
-
     }
 
     private void findViews() {
@@ -222,7 +212,10 @@ public class Activity_MainMenu extends Activity_Base  {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
 
         super.onPrepareOptionsMenu(mymMenu);
-        resetFinished();
+
+//        isOrdersFinished = false;
+//        isLatestOrderIdReturned = false;
+        //     fireBaseManager.setShoppingCartReturned(false);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
