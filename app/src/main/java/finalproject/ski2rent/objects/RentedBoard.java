@@ -26,7 +26,6 @@ public class RentedBoard extends Board {
         return this;
     }
 
-
     public String description() {
         String str = super.description();
         return str + " " + getLength();

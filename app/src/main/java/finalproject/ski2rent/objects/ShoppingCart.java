@@ -47,7 +47,6 @@ public class ShoppingCart {
         return this;
     }
 
-    // TODO probably not needed because of firebase
     public void addToCart(RentedBoard boardToCart) {
         for (int i = 0; i < boardsInCart.size(); i++) {
             if (boardsInCart.get(i).isSameKey(boardToCart.getKey())

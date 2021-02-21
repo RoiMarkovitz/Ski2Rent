@@ -2,12 +2,10 @@ package finalproject.ski2rent.activities;
 
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
 import android.widget.Toast;
-
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -16,9 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUserMetadata;
 
-
 import java.util.Arrays;
-
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.callbacks.CallBack_UpdateCustomerData;
@@ -30,7 +26,6 @@ public class Activity_Login extends Activity_Base {
 
     // https://firebase.google.com/docs/auth/android/firebaseui?authuser=0
     // https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +39,6 @@ public class Activity_Login extends Activity_Base {
 
     private void startLoginMethod() {
         Log.d("pttt", "startLoginMethod");
-
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -96,6 +90,7 @@ public class Activity_Login extends Activity_Base {
                 if (response == null) {
                     // User pressed back button
                     showMessage(R.string.sign_in_cancelled);
+                    finish();
                     return;
                 }
 
@@ -113,38 +108,5 @@ public class Activity_Login extends Activity_Base {
     private void showMessage(int id) {
         Toast.makeText(this, getText(id), Toast.LENGTH_SHORT).show();
     }
-
-
-
-    @Override
-    protected void onStart() {
-        Log.d("loginLifeCycle", "onStart: Activity_Login");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d("loginLifeCycle", "onResume: Activity_Login");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("loginLifeCycle", "onPause: Activity_Login");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d("loginLifeCycle", "onStop: Activity_Login");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d("loginLifeCycle", "onDestroy: Activity_Login");
-        super.onDestroy();
-    }
-
 
 } // Activity_Login

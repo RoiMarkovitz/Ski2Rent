@@ -15,7 +15,6 @@ public abstract class Board {
     protected eLevel level;
     protected eType type;
 
-
     public Board() {}
 
     public String getKey() {

@@ -16,13 +16,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import finalproject.ski2rent.R;
-import finalproject.ski2rent.callbacks.CallBack_GetShoppingCartData;
 import finalproject.ski2rent.objects.ShoppingCart;
 import finalproject.ski2rent.utils.FireBaseManager;
 
 public class Activity_Base extends AppCompatActivity {
 
     protected Menu mymMenu;
+    protected FireBaseManager fireBaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +31,18 @@ public class Activity_Base extends AppCompatActivity {
         setContentView(R.layout.activity__base);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        fireBaseManager = FireBaseManager.getInstance();
     }
 
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mymMenu = menu;
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        // R.menu.my_menu is a reference to an xml file named my_menu.xml which should be inside your res/menu directory.
         getMenuInflater().inflate(R.menu.my_menu, menu);
-//        int id = menu.getItem(0).getItemId();
-        if (firebaseUser == null) {
-            menu.getItem(0).setIcon(R.drawable.ic_user_login);
-        } else {
+        if (FireBaseManager.getInstance().isCurrentUserLoggedIn()) {
             menu.getItem(0).setIcon(R.drawable.ic_user_logout);
+        } else {
+            menu.getItem(0).setIcon(R.drawable.ic_user_login);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -60,7 +57,7 @@ public class Activity_Base extends AppCompatActivity {
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        invalidateOptionsMenu(); // maybe this is not needed
+        invalidateOptionsMenu();
         int id = item.getItemId();
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -81,7 +78,6 @@ public class Activity_Base extends AppCompatActivity {
             } else {
                 FirebaseAuth.getInstance().signOut();
                 FireBaseManager.getInstance().setShoppingCartReturned(false);
-                // TODO fix here, if logout not in main menu the icon wont be refreshed
                 if (!(this instanceof Activity_MainMenu)) {
                     finish();
                 }
@@ -112,12 +108,6 @@ public class Activity_Base extends AppCompatActivity {
             activity.finish();
         }
 
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d("baseLifeCycle", "onStart: Activity_Base");
-        super.onStart();
     }
 
 } // Activity_Base

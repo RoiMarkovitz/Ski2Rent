@@ -83,8 +83,7 @@ public class FireBaseManager {
         if (customer == null) { // first time login event
             customer = new Customer()
                     .setUid(uid)
-                    .setPhone(phone)
-                    .setName(firebaseUser.getDisplayName());
+                    .setPhone(phone);
 
             initShoppingCartForFirstTimeCustomerUser(uid);
         }
@@ -253,7 +252,6 @@ public class FireBaseManager {
         });
 
     }
-
 
     public void readPriceDataFromServer(String priceKey, CallBack_PriceData callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

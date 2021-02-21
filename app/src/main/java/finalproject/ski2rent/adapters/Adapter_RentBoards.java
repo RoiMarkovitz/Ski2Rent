@@ -75,7 +75,6 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
         ArrayAdapter<Integer> length_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, lengths);
         holder.boards_SPN_lengths.setAdapter(length_adapter);
 
-
         holder.boards_SPN_lengths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Object item = parent.getItemAtPosition(pos);
@@ -95,7 +94,6 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
         Glide
                 .with(mInflater.getContext())
                 .load(resourceId)
-   //             .centerCrop()
                 .into(holder.boards_IMG_image);
     }
 
@@ -172,8 +170,6 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
                         boardToCart.setPrice(board.getPrice());
 
                         boardToCart.setLength(selectedLen);
-                        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-                      //  fireBaseManager.updateShoppingCartToServer();
 
                         mClickListener.onAddToCartClick(getAdapterPosition(), boardToCart);
                     }

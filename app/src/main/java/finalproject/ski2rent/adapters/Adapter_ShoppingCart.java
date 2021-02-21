@@ -1,13 +1,11 @@
 package finalproject.ski2rent.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import finalproject.ski2rent.R;
@@ -92,7 +90,6 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) {
-                     //   RentedBoard board = getItem(getAdapterPosition());
                         int position = getAdapterPosition();
                         mData.remove(getAdapterPosition());
                         notifyItemRemoved(getAdapterPosition());

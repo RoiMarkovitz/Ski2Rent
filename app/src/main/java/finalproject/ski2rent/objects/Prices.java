@@ -2,10 +2,6 @@ package finalproject.ski2rent.objects;
 
 import java.util.ArrayList;
 
-import finalproject.ski2rent.utils.FireBaseManager;
-
-// TODO maybe make singleton - here it should be probably singelton
-
 public class Prices {
 
     private static final Double[] DISCOUNTS = {0.0, 5.0, 8.0, 15.0};
@@ -59,21 +55,21 @@ public class Prices {
         int maxRentDaysBeforeExtraDays = priceTable.get(priceTable.size() - 2).getDays();
         double price = 0;
         if (days > priceTable.get(maxRentDaysBeforeExtraDays - 1).getDays()) {
-            if (board.getLevel().name().equals("Bronze")) {
+            if (board.getLevel().name() == Board.eLevel.Bronze.name()) {
                 price = priceTable.get(maxRentDaysBeforeExtraDays - 1).getBronzePrice() + (days - maxRentDaysBeforeExtraDays) * priceTable.get(maxRentDaysBeforeExtraDays).getBronzePrice();
-            } else if (board.getLevel().name().equals("Silver")) {
+            } else if (board.getLevel().name() == Board.eLevel.Silver.name()) {
                 price = priceTable.get(maxRentDaysBeforeExtraDays - 1).getSilverPrice() + (days - maxRentDaysBeforeExtraDays) * priceTable.get(maxRentDaysBeforeExtraDays).getSilverPrice();
-            } else {
+            } else { // its Gold
                 price = priceTable.get(maxRentDaysBeforeExtraDays - 1).getGoldPrice() + (days - maxRentDaysBeforeExtraDays) * priceTable.get(maxRentDaysBeforeExtraDays).getGoldPrice();
             }
         } else {
             for (int i = 0; i < priceTable.size() - 1; i++) {
                 if (days == priceTable.get(i).getDays()) {
-                    if (board.getLevel().name().equals("Bronze")) {
+                    if (board.getLevel().name() == Board.eLevel.Bronze.name()) {
                         price = priceTable.get(i).getBronzePrice();
-                    } else if (board.getLevel().name().equals("Silver")) {
+                    } else if (board.getLevel().name() == Board.eLevel.Silver.name()) {
                         price =  priceTable.get(i).getSilverPrice();
-                    } else {
+                    } else { // its Gold
                         price =  priceTable.get(i).getGoldPrice();
                     }
                     break;

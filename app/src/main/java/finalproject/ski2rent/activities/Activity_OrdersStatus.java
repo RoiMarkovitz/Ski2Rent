@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,7 +17,6 @@ import java.util.List;
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_OrdersStatus;
 import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
-import finalproject.ski2rent.objects.BoardForRent;
 import finalproject.ski2rent.objects.Order;
 import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MySignals;

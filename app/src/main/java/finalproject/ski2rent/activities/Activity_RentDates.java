@@ -39,7 +39,6 @@ public class Activity_RentDates extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_dates);
 
-
         findViews();
 
         String boardType = getIntent().getStringExtra(EXTRA_KEY_BOARD_TYPE);
@@ -50,27 +49,17 @@ public class Activity_RentDates extends Activity_Base {
                 .load(R.drawable.img_dates_background)
                 .into(rentDates_IMG_background);
 
-        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         ShoppingCart shoppingCart = fireBaseManager.getShoppingCart();
         if (shoppingCart != null) {
             pickupDateInCart = shoppingCart.getPickupDate();
             returnDateInCart = shoppingCart.getReturnDate();
             if (pickupDateInCart != 0 || returnDateInCart != 0) {
-                // Cart already has dates. order is only for one date
-                // should alert here
-                MySignals.getInstance().toast("Cart already has dates. order is only for one date");
+                MySignals.getInstance().toast("Clear cart first to pick a different date.");
                 openRentBoardsActivity(Activity_RentDates.this, boardType, pickupDateInCart, returnDateInCart, boardsForRentJson);
                 return;
             }
         }
 
-        // now create instance of the material date picker
-        // builder make sure to add the "dateRangePicker"
-        // which is material date range picker which is the
-        // second type of the date picker in material design
-        // date picker we need to pass the pair of Long
-        // Long, because the start date and end date is
-        // store as "Long" type value
         MaterialDatePicker.Builder<Pair<Long, Long>> materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker();
 
         // create the calendar constraint builder
@@ -79,28 +68,19 @@ public class Activity_RentDates extends Activity_Base {
         // all dates before current date are blocked
         calendarConstraintBuilder.setValidator(DateValidatorPointForward.now());
 
-        // now define the properties of the
-        // materialDateBuilder
+        // now define the properties of the materialDateBuilder
         materialDateBuilder.setTitleText("SELECT RENT DATES RANGE");
 
-        // now pass the constrained calender builder to
-        // material date picker Calendar constraints
+        // now pass the constrained calender builder to material date picker Calendar constraints
         materialDateBuilder.setCalendarConstraints(calendarConstraintBuilder.build());
 
         // now create the instance of the material date picker
         final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
 
-      //  materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
-
         rentDates_BTN_pickDate.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // getSupportFragmentManager() to
-                        // interact with the fragments
-                        // associated with the material design
-                        // date picker tag is to get any error
-                        // in logcat
                         materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
                     }
                 });
@@ -119,7 +99,6 @@ public class Activity_RentDates extends Activity_Base {
     private void findViews() {
         rentDates_BTN_pickDate = findViewById(R.id.rentDates_BTN_pickDate);
         rentDates_IMG_background = findViewById(R.id.rentDates_IMG_background);
-
     }
 
     private void openRentBoardsActivity(Activity activity, String boardType, long startDate, long endDate, String boardsForRentJson) {

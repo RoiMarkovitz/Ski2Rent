@@ -2,14 +2,11 @@ package finalproject.ski2rent.adapters;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +48,6 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
         holder.order_LBL_id.setText("Order ID " + order.getId());
         holder.order_LBL_pickupDate.setText("Pickup date: " + DateFormat.format("dd.MM.yy", order.getPickupDate()).toString());
         holder.order_LBL_returnDate.setText("Return date: " + DateFormat.format("dd.MM.yy", order.getReturnDate()).toString());
-   //     holder.order_LBL_details.setText(order.description());
         holder.order_LBL_price.setText("Total price: € "+order.calculateTotalPrice());
         order.updateStatus();
         setOrderStatusAndImage(order, holder);
@@ -63,21 +59,17 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
         Adapter_ItemDetails adapter = new Adapter_ItemDetails(context, boards);
         holder.order_LST_details.setAdapter(adapter);
 
-
     }
 
     private void setOrderStatusAndImage(Order order, MyViewHolder holder) {
         if (order.getStatus() != Order.eStatus.Returned && order.getStatus() != Order.eStatus.Cancelled) {
             if (order.isCancelAllowed()) {
-                // only possible to cancel order up until 24 hours before pickup date
                 holder.order_IMG_action.setImageResource(R.drawable.ic_cancel);
                 isCancelClickable = true;
             } else if (order.isOrderReturnable()) {
-                // only possible to return order after pickup date
                 holder.order_IMG_action.setImageResource(R.drawable.ic_return);
                 isCancelClickable = false;
             } else {
-                // 24 hours before order pickup date you cant cancel or pickup the order
                 holder.order_IMG_action.setVisibility(View.INVISIBLE);
             }
         } else {
@@ -116,7 +108,6 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
         TextView order_LBL_id;
         TextView order_LBL_pickupDate;
         TextView order_LBL_returnDate;
-     //  TextView order_LBL_details;
         TextView order_LBL_price;
         RecyclerView order_LST_details;
         ImageView order_IMG_action;

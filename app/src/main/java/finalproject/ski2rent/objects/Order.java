@@ -1,7 +1,5 @@
 package finalproject.ski2rent.objects;
 
-import android.text.format.DateFormat;
-
 import java.util.ArrayList;
 
 public class Order {
@@ -11,7 +9,6 @@ public class Order {
 
     private int id = 0;
     private String customerKey = "";
-    // maybe add discount of the order if needed to show later, not so important
     private ArrayList<RentedBoard> boards = new ArrayList<>();
     private long orderDate = 0;
     private long pickupDate = 0;
@@ -26,20 +23,6 @@ public class Order {
         this.customerKey = customerKey;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
-
-        // late and return possible
-//        this.pickupDate = System.currentTimeMillis() - (24 * 60 * 60 * 1000) * 6;
-//        this.returnDate = System.currentTimeMillis() - (24 * 60 * 60 * 1000) * 3;
-        // picked and return possible
-//        this.pickupDate = System.currentTimeMillis() - (24 * 60 * 60 * 1000) * 2;
-//        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 7;
-        // Ordered and cancel possible
-//        this.pickupDate = System.currentTimeMillis() + (24 * 60 * 60 * 1000) * 7;
-//        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
-        // Ordered and nothing is possible. 24 hours window
-//        this.pickupDate = System.currentTimeMillis() + (12 * 60 * 60 * 1000);
-//        this.returnDate = pickupDate + (24 * 60 * 60 * 1000) * 4;
-
         this.status = eStatus.Ordered;
         this.id = ++idGenerator;
     }
@@ -57,21 +40,19 @@ public class Order {
         return status;
     }
 
-//    public Order setStatus(eStatus status) {
-//        this.status = status;
-//        return this;
-//    }
-
     public Order setStatus(eStatus status) {
+        // returned and cancelled are final order states, they cant change.
         if (this.status == eStatus.Returned || this.status == eStatus.Cancelled) {
             return this;
         }
 
+        // if cancel is allowed and the input is "cancel", then update order status to cancelled
         if (isCancelAllowed() && status == eStatus.Cancelled) {
             this.status = eStatus.Cancelled;
             return this;
         }
 
+        // if return order is allowed and the input is "return", then update order status to returned
         if (isOrderReturnable() && status == eStatus.Returned) {
             this.status = eStatus.Returned;
             return this;
@@ -150,27 +131,20 @@ public class Order {
         return amount;
     }
 
+    // can return order only after it has been picked up
     public boolean isOrderReturnable() {
         return System.currentTimeMillis() >= pickupDate;
     }
 
+    // can pickup order only between the returnDate and the pickup date
     public boolean isOrderPickable() {
         return System.currentTimeMillis() >= pickupDate && pickupDate < returnDate;
     }
 
+    // can cancel order only up to 24 hours before pickup date
     public boolean isCancelAllowed() {
         return pickupDate - (24 * 60 * 60 * 1000) > System.currentTimeMillis()
                 && this.status != eStatus.Cancelled;
-
-    }
-
-    public String description() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < boards.size(); i++) {
-            stringBuilder.append(boards.get(i).description() + "\n");
-        }
-
-        return stringBuilder.toString();
 
     }
 
