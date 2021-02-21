@@ -4,13 +4,17 @@ import androidx.core.util.Pair;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -25,8 +29,8 @@ public class Activity_RentDates extends Activity_Base {
     public static final String EXTRA_KEY_BOARD_TYPE = "EXTRA_KEY_BOARD_TYPE";
     public static final String EXTRA_KEY_ALL_BOARDS = "EXTRA_KEY_ALL_BOARDS";
 
-    private Button mPickDateButton;
-    private TextView mShowSelectedDateText;
+    private MaterialButton rentDates_BTN_pickDate;
+    private ImageView rentDates_IMG_background;
     private long pickupDateInCart;
     private long returnDateInCart;
 
@@ -35,11 +39,16 @@ public class Activity_RentDates extends Activity_Base {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__rent_dates);
 
-        mPickDateButton = findViewById(R.id.pick_date_button);
-        mShowSelectedDateText = findViewById(R.id.show_selected_date);
+
+        findViews();
 
         String boardType = getIntent().getStringExtra(EXTRA_KEY_BOARD_TYPE);
         String boardsForRentJson = getIntent().getStringExtra(EXTRA_KEY_ALL_BOARDS);
+
+        Glide
+                .with(this)
+                .load(R.drawable.img_dates_background)
+                .into(rentDates_IMG_background);
 
         FireBaseManager fireBaseManager = FireBaseManager.getInstance();
         ShoppingCart shoppingCart = fireBaseManager.getShoppingCart();
@@ -83,7 +92,7 @@ public class Activity_RentDates extends Activity_Base {
 
       //  materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
 
-        mPickDateButton.setOnClickListener(
+        rentDates_BTN_pickDate.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -106,6 +115,12 @@ public class Activity_RentDates extends Activity_Base {
         });
 
     } // onCreate
+
+    private void findViews() {
+        rentDates_BTN_pickDate = findViewById(R.id.rentDates_BTN_pickDate);
+        rentDates_IMG_background = findViewById(R.id.rentDates_IMG_background);
+
+    }
 
     private void openRentBoardsActivity(Activity activity, String boardType, long startDate, long endDate, String boardsForRentJson) {
         Intent myIntent = new Intent(activity, Activity_RentBoards.class);

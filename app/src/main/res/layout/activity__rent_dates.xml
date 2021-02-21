@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,28 +9,37 @@
     tools:context=".activities.Activity_RentDates"
     tools:ignore="HardcodedText">
 
-    <!--make sure to give the appropriate IDs to textView
-        and the button to handle them in MainActivity.java-->
+    <ImageView
+        android:id="@+id/rentDates_IMG_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
 
-    <!--simple text view to show the selected date by the user-->
-    <TextView
-        android:id="@+id/show_selected_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="128dp"
-        android:text="Selected Date is : "
-        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:orientation="vertical"
+        android:gravity="top"
+        >
 
-    <!--button to open the material design date picker dialog-->
-    <Button
-        android:id="@+id/pick_date_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:text="Select Rent Dates"
-        android:textSize="18sp"
-         />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rentDates_BTN_pickDate"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="25dp"
+            app:backgroundTint="@color/Peach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="12dp"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="Select Rent Dates"
+            />
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

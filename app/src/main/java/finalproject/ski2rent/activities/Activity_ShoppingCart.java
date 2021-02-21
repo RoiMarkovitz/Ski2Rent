@@ -71,7 +71,9 @@ public class Activity_ShoppingCart extends Activity_Base {
                 FireBaseManager fireBaseManager = FireBaseManager.getInstance();
                 fireBaseManager.updateShoppingCartToServer(shoppingCart, new CallBack_UpdateShoppingCartData() {
                     @Override
-                    public void updated() {}
+                    public void updated() {
+                        // added updated boolean and update the adapter
+                    }
                 });
                 setTextTotalPrice();
             }
