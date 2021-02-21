@@ -1,7 +1,6 @@
 package finalproject.ski2rent.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -148,7 +145,7 @@ public class Adapter_RentBoards extends RecyclerView.Adapter<Adapter_RentBoards.
 
         MyViewHolder(View itemView) {
             super(itemView);
-            boards_LBL_name = itemView.findViewById(R.id.boards_LBL_name);
+            boards_LBL_name = itemView.findViewById(R.id.orders_LBL_id);
             boards_LBL_brand = itemView.findViewById(R.id.boards_LBL_brand);
             boards_LBL_camberProfile = itemView.findViewById(R.id.boards_LBL_camberProfile);
             boards_LBL_discount = itemView.findViewById(R.id.boards_LBL_discount);

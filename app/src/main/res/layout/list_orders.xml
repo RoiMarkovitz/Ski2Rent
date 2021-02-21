@@ -1,50 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:background="@color/silver"
-    android:orientation="horizontal">
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="20dp"
+    android:elevation="5dp"
+    app:cardElevation="5dp"
+    >
 
-    <TextView
-        android:id="@+id/order_LBL_details"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:text="details"
-        android:textSize="14sp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="56.0"/>
+        android:padding="12dp"
+        >
 
-    <TextView
-        android:id="@+id/order_LBL_price"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:text="price"
-        android:textSize="14sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="90.6"/>
+        <TextView
+            android:id="@+id/order_LBL_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="##/##/##"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/order_LBL_status"
-        android:gravity="center"
-        android:text="status"
-        android:textSize="14sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="90.0"/>
+        <TextView
+            android:id="@+id/order_LBL_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="status"
+            android:layout_below="@+id/order_LBL_date"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/order_IMG_action"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_weight="90.0"
-        android:clickable="true"
-        android:visibility="visible"
-        android:src="@drawable/ic_return"/>
+        <TextView
+            android:id="@+id/order_LBL_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="12dp"
+            android:text="Order ID "
+            android:textColor="@color/black"
+            android:background="@color/silver"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/order_LBL_pickupDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_LBL_status"
+            android:layout_alignStart="@id/order_LBL_date"
+            android:layout_marginTop="12dp"
+            android:text="Pickup Date: ##/##/##"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/order_LBL_returnDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_LBL_pickupDate"
+            android:layout_alignStart="@id/order_LBL_pickupDate"
+            android:layout_marginTop="8dp"
+            android:text="Return Date: ##/##/##"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_LST_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_LBL_returnDate"
+            android:layout_alignStart="@id/order_LBL_returnDate"
+            android:layout_marginTop="8dp"
+            tools:listitem="@layout/list_item_details"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/order_LBL_details"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/order_LBL_returnDate"-->
+<!--            android:layout_alignStart="@id/order_LBL_returnDate"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text="Details"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="14sp" />-->
+
+        <TextView
+            android:id="@+id/order_LBL_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_LST_details"
+            android:layout_alignStart="@id/order_LST_details"
+            android:layout_marginTop="12dp"
+            android:text="Total price: "
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/order_IMG_action"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:visibility="visible"
+            android:src="@drawable/ic_return"/>
+
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

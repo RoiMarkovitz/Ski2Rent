@@ -165,8 +165,7 @@ public class Order {
     }
 
     public String description() {
-        String dateFormat = DateFormat.format("dd.MM.yy", orderDate).toString();
-        StringBuilder stringBuilder = new StringBuilder("Order id: " + getId()  + "\n order date: " + dateFormat + "\n");
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < boards.size(); i++) {
             stringBuilder.append(boards.get(i).description() + "\n");
         }

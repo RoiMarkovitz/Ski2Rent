@@ -142,11 +142,14 @@ public class Activity_MainMenu extends Activity_Base {
         menu_BTN_ordersStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOrdersFinished && fireBaseManager.isCurrentUserLoggedIn()) {
-                    openOrdersStatusActivity(Activity_MainMenu.this);
-                } else {
-                    openLoginActivity(Activity_MainMenu.this);
+                if (fireBaseManager.isCurrentUserLoggedIn()) {
+                    if (isOrdersFinished) {
+                        openOrdersStatusActivity(Activity_MainMenu.this);
+                    }
                 }
+                    else {
+                        openLoginActivity(Activity_MainMenu.this);
+                    }
             }
         });
 

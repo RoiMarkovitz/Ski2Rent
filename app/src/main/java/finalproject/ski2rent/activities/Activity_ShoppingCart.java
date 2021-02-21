@@ -82,20 +82,24 @@ public class Activity_ShoppingCart extends Activity_Base {
         shoppingCart_BTN_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = firebaseUser.getUid();
-                ArrayList<RentedBoard> boardsToOrder = adapter_boards.getRentedBoards();
-                Order order = new Order(uid, boardsToOrder, shoppingCart.getPickupDate(), shoppingCart.getReturnDate());
+                // probably needed here, only allow checkout when the server finished loading the cart and reutrning it
+                // or not, because i do the addition locally, and what is sent is what is most updated anyways
+          //      if (FireBaseManager.getInstance().isShoppingCartReturned()) {
+                    FireBaseManager fireBaseManager = FireBaseManager.getInstance();
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = firebaseUser.getUid();
+                    ArrayList<RentedBoard> boardsToOrder = adapter_boards.getRentedBoards();
+                    Order order = new Order(uid, boardsToOrder, shoppingCart.getPickupDate(), shoppingCart.getReturnDate());
 
-                fireBaseManager.updateOrderToServer(uid, order,  new CallBack_UpdateOrderData() {
-                    @Override
-                    public void updated() {
-                        MySignals.getInstance().toast("Thanks for buying!");
-                        finish();
-                        // return
-                    }
-                });
+                    fireBaseManager.updateOrderToServer(uid, order, new CallBack_UpdateOrderData() {
+                        @Override
+                        public void updated() {
+                            MySignals.getInstance().toast("Thanks for buying!");
+                            finish();
+                            // return
+                        }
+                    });
+            //    }
             }
         });
 

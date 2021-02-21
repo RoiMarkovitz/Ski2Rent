@@ -92,7 +92,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".05"
             android:layout_below="@+id/shoppingCart_LST_records"
             android:layout_alignStart="@id/shoppingCart_LST_records"
             android:background="@color/silver">

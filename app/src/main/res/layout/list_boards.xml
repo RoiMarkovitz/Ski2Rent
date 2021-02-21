@@ -21,7 +21,7 @@
         >
 
         <TextView
-            android:id="@+id/boards_LBL_name"
+            android:id="@+id/orders_LBL_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -35,8 +35,8 @@
             android:id="@+id/boards_LBL_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/boards_LBL_name"
-            android:layout_alignStart="@id/boards_LBL_name"
+            android:layout_below="@id/orders_LBL_id"
+            android:layout_alignStart="@id/orders_LBL_id"
             android:layout_marginTop="4dp"
             android:text="Brand"
             android:textColor="@color/black"
