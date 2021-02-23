@@ -140,12 +140,11 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
                         if (isCancelClickable) {
                             order.setStatus(Order.eStatus.Cancelled);
                             // only possible to cancel order up until 24 hours before pickup date
-                        } else if (!isCancelClickable) {
+                        } else {
                             // only possible to return order after pickup date
                             order.setStatus(Order.eStatus.Returned);
-                        } else {
-                            // 24 hours before order pickup date you cant cancel or pickup the order
                         }
+
 
                         notifyDataSetChanged();
 

@@ -53,9 +53,7 @@ public class FireBaseManager {
     }
 
     public boolean isCurrentUserLoggedIn() {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             return true;
         } else {
@@ -64,15 +62,13 @@ public class FireBaseManager {
     }
 
     public String getUidCurrentUser() {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
             return uid;
         } else {
             return null;
         }
-
     }
 
     public void updateCustomerUser(Customer customer, CallBack_UpdateCustomerData callback) {
@@ -219,6 +215,7 @@ public class FireBaseManager {
         // update latest order id to server
         myRef = database.getReference("orders").child("latest_id");
         myRef.child("latest").setValue(o.getId());
+
         // update to clear shopping cart
         ShoppingCart sc = new ShoppingCart();
         sc.setCustomerKey(getUidCurrentUser());

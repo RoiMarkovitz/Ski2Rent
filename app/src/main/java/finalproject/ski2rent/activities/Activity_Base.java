@@ -59,9 +59,8 @@ public class Activity_Base extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         invalidateOptionsMenu();
         int id = item.getItemId();
-        FireBaseManager fireBaseManager = FireBaseManager.getInstance();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (id == R.id.cart) {
             if (fireBaseManager.isShoppingCartReturned()) {
@@ -77,7 +76,7 @@ public class Activity_Base extends AppCompatActivity {
                 openLoginActivity(this);
             } else {
                 FirebaseAuth.getInstance().signOut();
-                FireBaseManager.getInstance().setShoppingCartReturned(false);
+                fireBaseManager.setShoppingCartReturned(false);
                 if (!(this instanceof Activity_MainMenu)) {
                     finish();
                 }

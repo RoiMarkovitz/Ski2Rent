@@ -84,17 +84,6 @@
             android:layout_marginTop="8dp"
             tools:listitem="@layout/list_item_details"/>
 
-<!--        <TextView-->
-<!--            android:id="@+id/order_LBL_details"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/order_LBL_returnDate"-->
-<!--            android:layout_alignStart="@id/order_LBL_returnDate"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:text="Details"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="14sp" />-->
-
         <TextView
             android:id="@+id/order_LBL_price"
             android:layout_width="wrap_content"

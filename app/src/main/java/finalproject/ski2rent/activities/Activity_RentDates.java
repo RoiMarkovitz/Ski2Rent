@@ -4,14 +4,9 @@ import androidx.core.util.Pair;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -22,7 +17,6 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.objects.ShoppingCart;
-import finalproject.ski2rent.utils.FireBaseManager;
 import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_RentDates extends Activity_Base {

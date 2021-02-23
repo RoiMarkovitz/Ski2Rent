@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class Activity_MainMenu extends Activity_Base  {
         Log.d("mainMenuLifeCycle", "onCreate: Activity_MainMenu");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__main_menu);
-
+        
         initDataFromFireBase();
         findViews();
         initViews();
@@ -212,20 +210,6 @@ public class Activity_MainMenu extends Activity_Base  {
         Log.d("mainMenuLifeCycle", "onStart: Activity_MainMenu");
 
         super.onPrepareOptionsMenu(mymMenu);
-
-//        isOrdersFinished = false;
-//        isLatestOrderIdReturned = false;
-        //     fireBaseManager.setShoppingCartReturned(false);
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (fireBaseManager.isCurrentUserLoggedIn()) {
-            Log.d("pttt", "User logged in!");
-            Log.d("pttt", "Uid = " + firebaseUser.getUid());
-            Log.d("pttt", "PhoneNumber = " + firebaseUser.getPhoneNumber());
-        } else {
-            Log.d("pttt", "User not logged in!");
-        }
 
         readAllOrdersFromServer();
         readOrderLatestIdNumberFromServer();

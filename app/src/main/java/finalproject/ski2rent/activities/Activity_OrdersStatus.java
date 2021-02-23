@@ -16,9 +16,7 @@ import java.util.List;
 
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.adapters.Adapter_OrdersStatus;
-import finalproject.ski2rent.callbacks.CallBack_UpdateOrderData;
 import finalproject.ski2rent.objects.Order;
-import finalproject.ski2rent.utils.MySignals;
 
 public class Activity_OrdersStatus extends Activity_Base {
     public static final String EXTRA_KEY_ALL_ORDERS = "EXTRA_KEY_ALL_ORDERS";
