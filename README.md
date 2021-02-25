@@ -6,14 +6,14 @@ The application was created as my idea for a project in mobile applications cour
 
 ### Main Features 
 - Signed user
-- Unsigined user with restrictions (can do everything besides adding items to shopping cart and viewing orders status)
+- Unsigned user with restrictions (can do everything besides adding items to shopping cart and viewing orders status)
 - Firebase Realtime Database
-- Firebase Authnetication using a phone 
+- Firebase Authentication using a phone 
 - Shopping cart
 - Orders management with five different time dependent statuses (Ordered, Late, Picked, Returned, Cancelled)
 - Snowboards catalog
 - Skis catalog
-- Price list ןncludes discounts based on booking dates
+- Price list including discounts based on booking dates
 - Date range picker 
 
 ### Images
