@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import finalproject.ski2rent.R;
@@ -99,7 +100,7 @@ public class Activity_ShoppingCart extends Activity_Base {
     }
 
     private void setTextTotalPrice() {
-        shoppingCart_LBL_totalPrice.setText("Total price: € " + shoppingCart.calculateTotalPrice());
+        shoppingCart_LBL_totalPrice.setText("Total price: € " + new DecimalFormat("##.##").format(shoppingCart.calculateTotalPrice()));
     }
 
     private void findViews() {

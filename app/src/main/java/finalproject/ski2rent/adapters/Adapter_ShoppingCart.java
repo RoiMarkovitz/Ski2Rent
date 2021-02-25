@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import finalproject.ski2rent.R;
 import finalproject.ski2rent.objects.RentedBoard;
@@ -42,7 +44,7 @@ public class Adapter_ShoppingCart extends RecyclerView.Adapter<Adapter_ShoppingC
         RentedBoard board = mData.get(position);
         holder.shoppingCart_LBL_details.setText(board.description());
         holder.shoppingCart_LBL_quantity.setText(""+board.getQuantity());
-        holder.shoppingCart_LBL_price.setText("€ " +board.getPrice());
+        holder.shoppingCart_LBL_price.setText("€ " + new DecimalFormat("##.##").format(board.getPrice()));
 
     }
 

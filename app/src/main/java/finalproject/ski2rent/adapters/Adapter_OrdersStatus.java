@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import finalproject.ski2rent.R;
@@ -50,7 +51,7 @@ public class Adapter_OrdersStatus extends RecyclerView.Adapter<Adapter_OrdersSta
         holder.order_LBL_id.setText("Order ID " + order.getId());
         holder.order_LBL_pickupDate.setText("Pickup date: " + DateFormat.format("dd.MM.yy", order.getPickupDate()).toString());
         holder.order_LBL_returnDate.setText("Return date: " + DateFormat.format("dd.MM.yy", order.getReturnDate()).toString());
-        holder.order_LBL_price.setText("Total price: € "+order.calculateTotalPrice());
+        holder.order_LBL_price.setText("Total price: € "+ new DecimalFormat("##.##").format(order.calculateTotalPrice()));
         order.updateStatus();
         setOrderStatusAndImage(order, holder);
 
