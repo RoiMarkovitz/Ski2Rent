@@ -58,7 +58,7 @@ public class Activity_RentBoards extends Activity_Base {
         int rentDays = MyDateUtil.calculateDaysDifferenceWithLastDay(startRentDate, endRentDate);
         int daysBeforePickup = getDaysBeforePickup(startRentDate);
 
-        setLayoutTitle(boardType);
+        setLayoutTitle(Board.eType.valueOf(boardType));
 
         rentBoards_LST_boards.setLayoutManager(new LinearLayoutManager(this));
         Adapter_RentBoards adapter_rent_boards = new Adapter_RentBoards(this, boardsForRent, rentDays, daysBeforePickup);
@@ -93,7 +93,7 @@ public class Activity_RentBoards extends Activity_Base {
 
     } // onCreate
 
-    private void setLayoutTitle(String boardType) {
+    private void setLayoutTitle(Board.eType boardType) {
         if (boardType.equals(Board.eType.Snowboard)) {
             rentBoards_LBL_title.setText("Snowboards Rent List");
         } else {
